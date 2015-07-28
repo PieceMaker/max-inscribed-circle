@@ -1,4 +1,4 @@
-var voronoi = new Voronoi();
+var voronoi = new require('voronoi');
 var point = require('turf/node_modules/turf-point');
 var pointOnLine = require('turf/node_modules/turf-point-on-line');
 var within = require('turf/node_modules/turf-within');
@@ -7,13 +7,13 @@ var within = require('turf/node_modules/turf-within');
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
  *
  * @module turf/label-position
- * @param {Polygon} field a Polygon feature of the underlying field geometry in EPSG:4326
+ * @param {Polygon} polygon a Polygon feature of the underlying field geometry in EPSG:4326
  * @returns {Point} a Point feature at the best estimated label position
  */
 
-module.exports = function(field) {
-    var fieldSites = sites(field);
-    var diagram = voronoi.compute(fieldSites.sites, fieldSites.bbox);
+module.exports = function(polygon) {
+    var polySites = sites(polygon);
+    var diagram = voronoi.compute(polySites.sites, polySites.bbox);
     var vertices = {
         type: "FeatureCollection",
         features: []
@@ -29,18 +29,16 @@ module.exports = function(field) {
             }
         })
     }
-
     var ptsWithin = within(vertices, field); //remove any vertices that are not inside the polygon
-
     var labelLocation = {
         coordinates: [0,0],
         maxDist: 0
     };
-
     var fieldBoundaries = {
         type: "FeatureCollection",
         features: []
     };
+    var vertexDistance;
 
     //define borders of polygon and holes as LineStrings
     for(var j = 0; j < field.features[0].geometry.coordinates.length; j++) {
@@ -53,8 +51,6 @@ module.exports = function(field) {
             }
         })
     }
-
-    var vertexDistance;
 
     for(var k = 0; k < ptsWithin.features.length; k++) {
         for(var l = 0; l < fieldBoundaries.features.length; l++) {
