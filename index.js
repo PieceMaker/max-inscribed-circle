@@ -7,7 +7,7 @@ var within = require('turf/node_modules/turf-within');
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
  *
  * @module turf/label-position
- * @param {Polygon} polygon a Polygon feature of the underlying field geometry in EPSG:4326
+ * @param {Polygon} polygon a Polygon feature of the underlying polygon geometry in EPSG:4326
  * @returns {Point} a Point feature at the best estimated label position
  */
 
@@ -29,36 +29,36 @@ module.exports = function(polygon) {
             }
         })
     }
-    var ptsWithin = within(vertices, field); //remove any vertices that are not inside the polygon
+    var ptsWithin = within(vertices, polygon); //remove any vertices that are not inside the polygon
     var labelLocation = {
         coordinates: [0,0],
         maxDist: 0
     };
-    var fieldBoundaries = {
+    var polygonBoundaries = {
         type: "FeatureCollection",
         features: []
     };
     var vertexDistance;
 
     //define borders of polygon and holes as LineStrings
-    for(var j = 0; j < field.features[0].geometry.coordinates.length; j++) {
-        fieldBoundaries.features.push({
+    for(var j = 0; j < polygon.geometry.coordinates.length; j++) {
+        polygonBoundaries.features.push({
             type: "Feature",
             properties: {},
             geometry: {
                 type: "LineString",
-                coordinates: field.features[0].geometry.coordinates[j]
+                coordinates: polygon.geometry.coordinates[j]
             }
         })
     }
 
     for(var k = 0; k < ptsWithin.features.length; k++) {
-        for(var l = 0; l < fieldBoundaries.features.length; l++) {
+        for(var l = 0; l < polygonBoundaries.features.length; l++) {
             if(l == 0) {
-                vertexDistance = pointOnLine(fieldBoundaries.features[l], ptsWithin.features[k]).properties.dist;
+                vertexDistance = pointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist;
             } else {
                 vertexDistance = Math.min(vertexDistance,
-                    pointOnLine(fieldBoundaries.features[l], ptsWithin.features[k]).properties.dist);
+                    pointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist);
             }
         }
         if(vertexDistance > labelLocation.maxDist) {
@@ -70,19 +70,19 @@ module.exports = function(polygon) {
     return point(labelLocation.coordinates);
 };
 
-function sites(field) {
-    var fieldSites = [];
+function sites(polygon) {
+    var polygonSites = [];
     var xmin,xmax,ymin,ymax;
-    for(var i = 0; i < field.features[0].geometry.coordinates.length; i++) {
-        var polyRing = field.features[0].geometry.coordinates[i].slice();
+    for(var i = 0; i < polygon.geometry.coordinates.length; i++) {
+        var polyRing = polygon.geometry.coordinates[i].slice();
         for(var j = 0; j < polyRing.length-1; j++) {
             //Push original point
-            fieldSites.push({
+            polygonSites.push({
                 x: polyRing[j][0],
                 y: polyRing[j][1]
             });
             //Push midpoints of segments
-            fieldSites.push({
+            polygonSites.push({
                 x: (polyRing[j][0]+polyRing[j+1][0])/2,
                 y: (polyRing[j][1]+polyRing[j+1][1])/2
             });
@@ -109,7 +109,7 @@ function sites(field) {
         }
     }
     return {
-        sites: fieldSites,
+        sites: polygonSites,
         bbox: {
             xmin: xmin,
             xmax: xmax,
