@@ -1,0 +1,24 @@
+{
+  "name": "turf-label-position",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "turf": "^2.0.2",
+    "voronoi": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PieceMaker/turf-label-position.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PieceMaker/turf-label-position/issues"
+  },
+  "homepage": "https://github.com/PieceMaker/turf-label-position"
+}

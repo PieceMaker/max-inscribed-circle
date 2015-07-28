@@ -1,4 +1,4 @@
-var voronoi = require('voronoi'); //need to pull in voronoi library
+var voronoi = new Voronoi();
 var point = require('turf/node_modules/turf-point');
 var pointOnLine = require('turf/node_modules/turf-point-on-line');
 var within = require('turf/node_modules/turf-within');
