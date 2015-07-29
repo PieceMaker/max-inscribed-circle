@@ -1,4 +1,5 @@
-var voronoi = new require('voronoi');
+var Voronoi = require('voronoi');
+var voronoi = new Voronoi;
 var point = require('turf/node_modules/turf-point');
 var pointOnLine = require('turf/node_modules/turf-point-on-line');
 var within = require('turf/node_modules/turf-within');
@@ -29,7 +30,12 @@ module.exports = function(polygon) {
             }
         })
     }
-    var ptsWithin = within(vertices, polygon); //remove any vertices that are not inside the polygon
+    //within requires a FeatureCollection for input polygons
+    var polygonFeatureCollection = {
+        type: "FeatureCollection",
+        features: [polygon]
+    };
+    var ptsWithin = within(vertices, polygonFeatureCollection); //remove any vertices that are not inside the polygon
     var labelLocation = {
         coordinates: [0,0],
         maxDist: 0
