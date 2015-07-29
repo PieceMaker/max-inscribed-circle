@@ -117,10 +117,10 @@ function sites(polygon) {
     return {
         sites: polygonSites,
         bbox: {
-            xmin: xmin,
-            xmax: xmax,
-            ymin: ymin,
-            ymax: ymax
+            xl: xmin,
+            xr: xmax,
+            yt: ymin,
+            yb: ymax
         }
     };
 }
