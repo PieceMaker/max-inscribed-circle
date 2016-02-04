@@ -1,5 +1,5 @@
 {
-  "name": "turf-label-position",
+  "name": "max-inscribed-circle",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PieceMaker/turf-label-position.git"
+    "url": "https://github.com/PieceMaker/max-inscribed-circle.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PieceMaker/turf-label-position/issues"
+    "url": "https://github.com/PieceMaker/max-inscribed-circle/issues"
   },
-  "homepage": "https://github.com/PieceMaker/turf-label-position"
+  "homepage": "https://github.com/PieceMaker/max-inscribed-circle
 }
