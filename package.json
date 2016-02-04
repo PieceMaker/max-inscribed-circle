@@ -5,7 +5,6 @@
   "main": "index.js",
   "dependencies": {
     "turf-point": "^2.0.1",
-    "turf-point-on-line": "^1.0.2",
     "turf-within": "^1.0.1",
     "voronoi": "^1.0.0"
   },
