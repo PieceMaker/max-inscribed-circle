@@ -105,10 +105,10 @@ function sites(polygon) {
                 if(polyRing[j][0] > xmax) {
                     xmax = polyRing[j][0];
                 }
-                if(polyRing[j][0] < ymin) {
+                if(polyRing[j][1] < ymin) {
                     ymin = polyRing[j][1];
                 }
-                if(polyRing[j][0] > ymax) {
+                if(polyRing[j][1] > ymax) {
                     ymax = polyRing[j][1];
                 }
             }
