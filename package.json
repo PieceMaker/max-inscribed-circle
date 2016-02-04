@@ -9,15 +9,18 @@
   },
   "devDependencies": {
     "browserify": "^13.0.0",
+    "chai": "^3.5.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.1",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
     "gruntify-eslint": "^1.3.0",
-    "minifyify": "^7.2.1"
+    "minifyify": "^7.2.1",
+    "mocha": "^2.4.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha test --reporter spec --recursive",
+    "compile": "./node_modules/.bin/grunt build"
   },
   "repository": {
     "type": "git",
@@ -28,5 +31,5 @@
   "bugs": {
     "url": "https://github.com/PieceMaker/max-inscribed-circle/issues"
   },
-  "homepage": "https://github.com/PieceMaker/max-inscribed-circle
+  "homepage": "https://github.com/PieceMaker/max-inscribed-circle"
 }
