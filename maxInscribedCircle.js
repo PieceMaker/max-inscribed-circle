@@ -1,8 +1,8 @@
 var Voronoi = require('voronoi');
 var voronoi = new Voronoi;
-var point = require('turf/node_modules/turf-point');
-var pointOnLine = require('turf/node_modules/turf-point-on-line');
-var within = require('turf/node_modules/turf-within');
+var point = require('turf-point');
+var pointOnLine = require('./lib/turf-point-on-line/index.js');
+var within = require('turf-within');
 
 /**
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
