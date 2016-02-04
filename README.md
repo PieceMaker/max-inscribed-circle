@@ -3,7 +3,7 @@ A NodeJS implementation of an algorithm for finding the center of the maximum-ra
    
 This library takes a GeoJSON feature with Polygon geometry and returns the centroid of the maximum-radius inscribed circle as a GeoJSON feature with Point geometry.
 
-This library uses browserify build a browser-ready version of this library. This version is included in the `dist/` directory.
+This library uses browserify to build a browser-ready version of this library. This version is included in the `dist/` directory.
 
 It is important to note that due to the underlying `turf` dependencies, this library has been written to work primarily with `(lat,lon)` coordinates. If the polygon is in a known projection then it is recommended you transform it to `WGS84 (EPSG:4326)`. The `reproject` and `pro4` libraries on NPM are good for this.
 
@@ -25,9 +25,44 @@ The output file will be in the `dist/` directory.
 
 ## Examples
 
+```javascript
+var maxCircle = require('./maxInscribedCircle.js');
+var polygon = {
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [0.0,0.0],
+            [1.0,0.0],
+            [1.0,3.0],
+            [2.0,3.0],
+            [2.0,0.0],
+            [3.0,0.0],
+            [3.0,4.0],
+            [0.0,4.0],
+            [0.0,0.0]
+        ]]
+    },
+    "properties": {
+        "id": 1
+    }
+};
 
+console.log(maxCircle(polygon));
+/*
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [1.25,3.5]
+    },
+    "properties": {}
+}
+*/
+```
 
 ## Future
 
 * Add ability to work with polygons in units other than `(lat,lon)`.
 * Add ability to specify properties to copy from GeoJSON object passed in to returned GeoJSON object.
+* Add ability to specify the complexity of the Voronoi approximation.
