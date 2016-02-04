@@ -10,25 +10,29 @@ module.exports = function(grunt)
             debug: {
                 options: {
                     browserifyOptions: {
-                        debug: true
+                        debug: true,
+                        standalone: 'maxInscribedCircle'
                     }
                 },
                 files: {
-                    "./dist/max-inscribed-circle.js": "index.js"
+                    "./dist/max-inscribed-circle.js": "maxInscribedCircle.js"
                 }
             },
             prod: {
                 options: {
+                    browserifyOptions: {
+                        standalone: 'maxInscribedCircle'
+                    },
                     plugin: [ ["minifyify", { map: false }] ]
                 },
                 files: {
-                    "./dist/max-inscribed-circle.min.js": "index.js"
+                    "./dist/max-inscribed-circle.min.js": "maxInscribedCircle.js"
                 }
             }
         },
         watch: {
-            index: {
-                files: ["index.js"],
+            maxInscribedCircle: {
+                files: ["maxInscribedCircle.js"],
                 tasks: ["browserify:debug"]
             }
         },
