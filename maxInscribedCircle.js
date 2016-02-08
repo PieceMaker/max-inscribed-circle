@@ -75,7 +75,12 @@ module.exports = function(polygon) {
 
     return point(labelLocation.coordinates);
 };
-
+/**
+ * Takes a polygon and generates the sites needed to generate Voronoi
+ *
+ * @param polygon
+ * @returns {{sites: Array, bbox: {xl: *, xr: *, yt: *, yb: *}}}
+ */
 function sites(polygon) {
     var polygonSites = [];
     var xmin,xmax,ymin,ymax;
