@@ -23,6 +23,39 @@ grunt build
 
 The output file will be in the `dist/` directory.
 
+### Global Include
+
+Just include the file in your page, and then reference it:
+
+```html
+<html>
+   <head>
+      <!-- ... -->
+   </head>
+   <body>
+      <!-- ... -->
+      <script src="/vendor/max-inscribed-circle/dist/max-inscribed-circle.min.js"></script>
+      <script>
+         var polygon = { /* ... */ };
+         console.log(maxInscribedCircle(polygon));
+      </script>
+   </body>
+</html>
+```
+
+(The library is exposed as `window.maxInscribedCircle`.)
+
+### Node/Browserify
+
+You can simple require the module directly, after installing it from NPM.
+
+```javascript
+var maxCircle = require('./maxInscribedCircle.js');
+var polygon = { /* ... */};
+
+console.log(maxCircle(polygon));
+```
+
 ## Examples
 
 ```javascript
