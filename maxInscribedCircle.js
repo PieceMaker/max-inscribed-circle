@@ -13,6 +13,7 @@ var within = require('turf-within');
  */
 
 module.exports = function(polygon) {
+    fixMultiPoly(polygon);
     var polySites = sites(polygon);
     var diagram = voronoi.compute(polySites.sites, polySites.bbox);
     var vertices = {
@@ -128,4 +129,18 @@ function sites(polygon) {
             yb: ymax
         }
     };
+}
+
+/**
+ * Checks to see if the feature is a Polygon formatted as a MultiPolygon. Does not return anything,
+ * instead saves results directly back to feature passed in.
+ *
+ * @param polygon
+ */
+function fixMultiPoly(polygon) {
+    if(polygon.geometry.type == 'MultiPolygon' && polygon.geometry.coordinates[0].length == 1) {
+        polygon.geometry.type = 'Polygon';
+        polygon.geometry.coordinates = polygon.geometry.coordinates[0];
+    }
+    //TODO: Implement logic to test for actual MultiPolygon and return piece with largest area as a Polygon.
 }
