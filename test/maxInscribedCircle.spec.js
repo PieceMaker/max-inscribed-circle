@@ -19,15 +19,15 @@ describe('MaxInscribedCircle', function()
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [[
-                    [0.0,0.0],
-                    [1.0,0.0],
-                    [1.0,3.0],
-                    [2.0,3.0],
-                    [2.0,0.0],
-                    [3.0,0.0],
-                    [3.0,4.0],
-                    [0.0,4.0],
-                    [0.0,0.0]
+                    [0.0, 0.0],
+                    [1.0, 0.0],
+                    [1.0, 3.0],
+                    [2.0, 3.0],
+                    [2.0, 0.0],
+                    [3.0, 0.0],
+                    [3.0, 4.0],
+                    [0.0, 4.0],
+                    [0.0, 0.0]
                 ]]
             },
             "properties": {
@@ -38,7 +38,7 @@ describe('MaxInscribedCircle', function()
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [1.25,3.5]
+                "coordinates": [1.25, 3.5]
             },
             "properties": {}
         };
