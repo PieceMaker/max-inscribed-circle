@@ -13,7 +13,6 @@ var within = require('turf-within');
  */
 
 module.exports = function(polygon) {
-    fixMultiPoly(polygon);
     var polySites = sites(polygon);
     var diagram = voronoi.compute(polySites.sites, polySites.bbox);
     var vertices = {
