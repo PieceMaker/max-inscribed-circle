@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "turf-area": "^1.1.1",
     "turf-bearing": "^1.0.2",
     "turf-destination": "^1.2.1",
     "turf-distance": "^1.1.0",

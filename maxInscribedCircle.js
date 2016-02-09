@@ -14,8 +14,8 @@ var GeoJSONUtils = require('./utils/GeoJSONUtils.js');
  */
 
 module.exports = function(polygon) {
-    GeoJSONUtils._fixMultiPoly(polygon);
-    var polySites = GeoJSONUtils._sites(polygon);
+    polygon = GeoJSONUtils.fixMultiPoly(polygon);
+    var polySites = GeoJSONUtils.sites(polygon);
     var diagram = voronoi.compute(polySites.sites, polySites.bbox);
     var vertices = {
         type: "FeatureCollection",

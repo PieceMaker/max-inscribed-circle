@@ -4,32 +4,48 @@
 // @module
 // ---------------------------------------------------------------------------------------------------------------------
 
+var area = require('turf-area');
+var _ = require('lodash');
+
+var util = require('util');
+function inspect(obj, depth) {
+    return util.inspect(obj, {depth: depth || null});
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 function GeoJSONUtils() {
 }
 
 /**
- * Checks to see if the feature is a Polygon formatted as a MultiPolygon. Does not return anything,
- * instead saves results directly back to feature passed in.
+ * Checks to see if the feature is a Polygon formatted as a MultiPolygon.
  *
  * @param polygon
- * @private
+ * @returns {Polygon}
  */
-GeoJSONUtils.prototype._fixMultiPoly = function(polygon) {
+GeoJSONUtils.prototype.fixMultiPoly = function(polygon) {
+    var self = this;
+
     if(polygon.geometry.type == 'MultiPolygon' && polygon.geometry.coordinates[0].length == 1) {
+        // Handle a Polygon in the form of a MultiPolygon
         polygon.geometry.type = 'Polygon';
         polygon.geometry.coordinates = polygon.geometry.coordinates[0];
+
+        return polygon;
+    } else if(polygon.geometry.type == 'MultiPolygon' && polygon.geometry.coordinates[0].length > 1) {
+        // Handle a true MultiPolygon by returning the Polygon of largest area
+        var polygons = _.map(polygon.geometry.coordinates[0], function(coordinates) {
+            return self._toGeoJSONFeature(
+                self._toGeoJSONPolygon(coordinates)
+            );
+        });
+        var collectionArea = _.map(polygons, area);
+        var largestAreaIndex = _.indexOf(collectionArea, _.max(collectionArea));
+
+        return polygons[largestAreaIndex];
+    } else {
+        return polygon;
     }
-    //else if(polygon.geometry.type == 'MultiPolygon' && polygon.geometry.coordinates.length > 1) {
-    //    var polygons = {
-    //        "type": "FeatureCollection",
-    //        "features": []
-    //    };
-    //    polygon.geometry.coordinates.forEach(function(coordinates) {
-    //
-    //    });
-    //}
 };
 
 /**
@@ -37,9 +53,8 @@ GeoJSONUtils.prototype._fixMultiPoly = function(polygon) {
  *
  * @param polygon
  * @returns {{sites: Array, bbox: {xl: *, xr: *, yt: *, yb: *}}}
- * @private
  */
-GeoJSONUtils.prototype._sites = function(polygon) {
+GeoJSONUtils.prototype.sites = function(polygon) {
     var polygonSites = [];
     var xmin,xmax,ymin,ymax;
     for(var i = 0; i < polygon.geometry.coordinates.length; i++) {
@@ -110,7 +125,7 @@ GeoJSONUtils.prototype._toGeoJSONFeature = function(geom) {
 GeoJSONUtils.prototype._toGeoJSONPolygon = function(coordinates) {
     var geom = {
         "type": "Polygon",
-        "coordinates": coordinates
+        "coordinates": [coordinates]
     };
     return(geom);
 };
