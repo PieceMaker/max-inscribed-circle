@@ -3,6 +3,7 @@ var voronoi = new Voronoi;
 var point = require('turf-point');
 var pointOnLine = require('./lib/turf-point-on-line/index.js');
 var within = require('turf-within');
+var GeoJSONUtils = require('./utils/GeoJSONUtils.js');
 
 /**
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
@@ -13,8 +14,8 @@ var within = require('turf-within');
  */
 
 module.exports = function(polygon) {
-    fixMultiPoly(polygon);
-    var polySites = sites(polygon);
+    GeoJSONUtils._fixMultiPoly(polygon);
+    var polySites = GeoJSONUtils._sites(polygon);
     var diagram = voronoi.compute(polySites.sites, polySites.bbox);
     var vertices = {
         type: "FeatureCollection",
@@ -76,71 +77,3 @@ module.exports = function(polygon) {
 
     return point(labelLocation.coordinates);
 };
-/**
- * Takes a polygon and generates the sites needed to generate Voronoi
- *
- * @param polygon
- * @returns {{sites: Array, bbox: {xl: *, xr: *, yt: *, yb: *}}}
- */
-function sites(polygon) {
-    var polygonSites = [];
-    var xmin,xmax,ymin,ymax;
-    for(var i = 0; i < polygon.geometry.coordinates.length; i++) {
-        var polyRing = polygon.geometry.coordinates[i].slice();
-        for(var j = 0; j < polyRing.length-1; j++) {
-            //Push original point
-            polygonSites.push({
-                x: polyRing[j][0],
-                y: polyRing[j][1]
-            });
-            //Push midpoints of segments
-            polygonSites.push({
-                x: (polyRing[j][0]+polyRing[j+1][0])/2,
-                y: (polyRing[j][1]+polyRing[j+1][1])/2
-            });
-            //initialize bounding box
-            if((i == 0) && (j == 0)) {
-                xmin = polyRing[j][0];
-                xmax = xmin;
-                ymin = polyRing[j][1];
-                ymax = ymin;
-            } else {
-                if(polyRing[j][0] < xmin) {
-                    xmin = polyRing[j][0];
-                }
-                if(polyRing[j][0] > xmax) {
-                    xmax = polyRing[j][0];
-                }
-                if(polyRing[j][1] < ymin) {
-                    ymin = polyRing[j][1];
-                }
-                if(polyRing[j][1] > ymax) {
-                    ymax = polyRing[j][1];
-                }
-            }
-        }
-    }
-    return {
-        sites: polygonSites,
-        bbox: {
-            xl: xmin,
-            xr: xmax,
-            yt: ymin,
-            yb: ymax
-        }
-    };
-}
-
-/**
- * Checks to see if the feature is a Polygon formatted as a MultiPolygon. Does not return anything,
- * instead saves results directly back to feature passed in.
- *
- * @param polygon
- */
-function fixMultiPoly(polygon) {
-    if(polygon.geometry.type == 'MultiPolygon' && polygon.geometry.coordinates[0].length == 1) {
-        polygon.geometry.type = 'Polygon';
-        polygon.geometry.coordinates = polygon.geometry.coordinates[0];
-    }
-    //TODO: Implement logic to test for actual MultiPolygon and return piece with largest area as a Polygon.
-}
