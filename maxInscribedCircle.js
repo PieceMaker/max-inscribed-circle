@@ -10,12 +10,16 @@ var GeoJSONUtils = require('./utils/GeoJSONUtils.js');
  *
  * @module turf/label-position
  * @param {Polygon} polygon a Polygon feature of the underlying polygon geometry in EPSG:4326
+ * @param decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
+ *   bbox. This is a workaround due to the issue referred to here:
+ *   https://github.com/gorhill/Javascript-Voronoi/issues/15
+ *   Leave empty if you do not want truncation.
  * @returns {Point} a Point feature at the best estimated label position
  */
 
-module.exports = function(polygon) {
+module.exports = function(polygon, decimalPlaces) {
     polygon = GeoJSONUtils.fixMultiPoly(polygon);
-    var polySites = GeoJSONUtils.sites(polygon);
+    var polySites = GeoJSONUtils.sites(polygon, decimalPlaces);
     var diagram = voronoi.compute(polySites.sites, polySites.bbox);
     var vertices = {
         type: "FeatureCollection",
