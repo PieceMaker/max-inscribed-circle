@@ -55,12 +55,12 @@ GeoJSONUtils.prototype.fixMultiPoly = function(polygon) {
  * @param decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
  *   bbox. This is a workaround due to the issue referred to here:
  *   https://github.com/gorhill/Javascript-Voronoi/issues/15
- *   Default value of 1 means do not truncate.
+ *   Defaults to 1e-20.
  * @returns {{sites: Array, bbox: {xl: *, xr: *, yt: *, yb: *}}}
  */
 GeoJSONUtils.prototype.sites = function(polygon, decimalPlaces) {
     if(decimalPlaces === undefined) {
-        decimalPlaces = 1;
+        decimalPlaces = 1e-20;
     }
     var polygonSites = [];
     var xmin,xmax,ymin,ymax;
@@ -69,32 +69,32 @@ GeoJSONUtils.prototype.sites = function(polygon, decimalPlaces) {
         for(var j = 0; j < polyRing.length-1; j++) {
             //Push original point
             polygonSites.push({
-                x: polyRing[j][0],
-                y: polyRing[j][1]
+                x: Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces,
+                y: Math.floor(polyRing[j][1] / decimalPlaces) * decimalPlaces
             });
             //Push midpoints of segments
             polygonSites.push({
-                x: (polyRing[j][0]+polyRing[j+1][0])/2,
-                y: (polyRing[j][1]+polyRing[j+1][1])/2
+                x: Math.floor(((polyRing[j][0]+polyRing[j+1][0]) / 2) / decimalPlaces) * decimalPlaces,
+                y: Math.floor(((polyRing[j][1]+polyRing[j+1][1]) / 2) / decimalPlaces) * decimalPlaces
             });
             //initialize bounding box
             if((i == 0) && (j == 0)) {
-                xmin = polyRing[j][0];
+                xmin = Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces;
                 xmax = xmin;
-                ymin = polyRing[j][1];
+                ymin = Math.floor(polyRing[j][1] / decimalPlaces) * decimalPlaces;
                 ymax = ymin;
             } else {
                 if(polyRing[j][0] < xmin) {
-                    xmin = polyRing[j][0];
+                    xmin = Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces;
                 }
                 if(polyRing[j][0] > xmax) {
-                    xmax = polyRing[j][0];
+                    xmax = Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces;
                 }
                 if(polyRing[j][1] < ymin) {
-                    ymin = polyRing[j][1];
+                    ymin = Math.floor(polyRing[j][1] / decimalPlaces) * decimalPlaces;
                 }
                 if(polyRing[j][1] > ymax) {
-                    ymax = polyRing[j][1];
+                    ymax = Math.floor(polyRing[j][1] / decimalPlaces) * decimalPlaces;
                 }
             }
         }

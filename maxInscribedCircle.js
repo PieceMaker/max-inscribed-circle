@@ -13,7 +13,7 @@ var GeoJSONUtils = require('./utils/GeoJSONUtils.js');
  * @param decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
  *   bbox. This is a workaround due to the issue referred to here:
  *   https://github.com/gorhill/Javascript-Voronoi/issues/15
- *   Leave empty if you do not want truncation.
+ *   If left empty, will default to tuncating at 20th decimal place.
  * @returns {Point} a Point feature at the best estimated label position
  */
 
