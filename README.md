@@ -99,3 +99,12 @@ console.log(maxCircle(polygon));
 * Add ability to work with polygons in units other than `(lat,lon)`.
 * Add ability to specify properties to copy from GeoJSON object passed in to returned GeoJSON object.
 * Add ability to specify the complexity of the Voronoi approximation.
+
+## Workarounds
+
+### Voronoi Close Cells Error
+
+Occasionally this library will fail with the error `Voronoi.closeCells() > this makes no sense!`. This is a known issue with floating point precision and was discussed in an issue in the voronoi library project page: https://github.com/gorhill/Javascript-Voronoi/issues/15. There does not appear to be a guaranteed fix as of yet, but a workaround argument has been added, `decimalPlaces`, which is used to truncate the inputs. It is recommended that you run the function in a retry without defining `decimalPlaces`. If the voronoi error is thrown, retry and define `decimalPlaces` as something relevant to your polygon, such as `1e-10`. Continue to increase this value until the error is no longer thrown.
+  
+Note, this error has so far only been detected when running in Chrome. It has not currently been a reported issue in Node.
+

@@ -52,9 +52,16 @@ GeoJSONUtils.prototype.fixMultiPoly = function(polygon) {
  * Takes a polygon and generates the sites needed to generate Voronoi
  *
  * @param polygon
+ * @param decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
+ *   bbox. This is a workaround due to the issue referred to here:
+ *   https://github.com/gorhill/Javascript-Voronoi/issues/15
+ *   Default value of 1 means do not truncate.
  * @returns {{sites: Array, bbox: {xl: *, xr: *, yt: *, yb: *}}}
  */
-GeoJSONUtils.prototype.sites = function(polygon) {
+GeoJSONUtils.prototype.sites = function(polygon, decimalPlaces) {
+    if(decimalPlaces === undefined) {
+        decimalPlaces = 1;
+    }
     var polygonSites = [];
     var xmin,xmax,ymin,ymax;
     for(var i = 0; i < polygon.geometry.coordinates.length; i++) {
