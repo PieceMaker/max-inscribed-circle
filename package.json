@@ -1,6 +1,6 @@
 {
   "name": "max-inscribed-circle",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A library to calculate the optimal point inside a polygon",
   "main": "max-inscribed-circle.js",
   "dependencies": {
