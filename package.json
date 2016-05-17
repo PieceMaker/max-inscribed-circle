@@ -1,8 +1,8 @@
 {
   "name": "max-inscribed-circle",
-  "version": "1.0.2",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.3",
+  "description": "A library to calculate the optimal point inside a polygon",
+  "main": "max-inscribed-circle.js",
   "dependencies": {
     "turf-area": "^1.1.1",
     "turf-bearing": "^1.0.2",
