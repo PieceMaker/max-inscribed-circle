@@ -4,6 +4,8 @@ var centroid = require('turf-centroid');
 var point = require('turf-point');
 var pointOnLine = require('./lib/turf-point-on-line/index.js');
 var within = require('turf-within');
+var makeError = require('make-error');
+var NoPointsInShapeError = makeError('NoPointsInShapeError');
 var GeoJSONUtils = require('./utils/geojson-utils.js');
 
 /**
@@ -44,6 +46,9 @@ module.exports = function(polygon, decimalPlaces) {
         features: [polygon]
     };
     var ptsWithin = within(vertices, polygonFeatureCollection); //remove any vertices that are not inside the polygon
+    if(ptsWithin.features.length == 0) {
+        throw new NoPointsInShapeError('Neither the centroid nor any Voronoi vertices intersect the shape.');
+    }
     var labelLocation = {
         coordinates: [0,0],
         maxDist: 0
@@ -83,3 +88,5 @@ module.exports = function(polygon, decimalPlaces) {
 
     return point(labelLocation.coordinates);
 };
+
+module.exports.NoPointsInShapeError = NoPointsInShapeError;
