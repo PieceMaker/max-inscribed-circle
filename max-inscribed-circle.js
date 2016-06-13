@@ -1,5 +1,6 @@
 var Voronoi = require('voronoi');
 var voronoi = new Voronoi;
+var centroid = require('turf-centroid');
 var point = require('turf-point');
 var pointOnLine = require('./lib/turf-point-on-line/index.js');
 var within = require('turf-within');
@@ -36,6 +37,7 @@ module.exports = function(polygon, decimalPlaces) {
             }
         })
     }
+    vertices.features.push(centroid(polygon));
     //within requires a FeatureCollection for input polygons
     var polygonFeatureCollection = {
         type: "FeatureCollection",
