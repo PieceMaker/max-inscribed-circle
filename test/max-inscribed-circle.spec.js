@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 var expect = require('chai').expect;
+var centroid = require('turf-centroid');
 var maxCircle = require('../dist/max-inscribed-circle.js');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -97,6 +98,19 @@ describe('MaxInscribedCircle', function()
                 "id": 1
             }
         };
+
+        // Test 4
+        this.inputTinyPolygon = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [-111.839291588403,40.1198633592576], [-111.839286482893,40.1198647078127],
+                    [-111.839271728881,40.1199017059989], [-111.839291588403,40.1198633592576]
+                ]]
+            },
+            "properties": {}
+        }
     });
 
     afterEach(function()
@@ -120,6 +134,12 @@ describe('MaxInscribedCircle', function()
     it('should handle MultiPolygons correctly', function()
     {
         expect(JSON.stringify(maxCircle(this.inputMultiPolygon))).to.equal(JSON.stringify(this.expectedPoint));
+    });
+
+    // Test 4
+    it('should return the centroid when no Voronoi vertices are inside polygon', function()
+    {
+        expect(JSON.stringify(maxCircle(this.inputTinyPolygon).geometry)).to.equal(JSON.stringify(centroid(this.inputTinyPolygon).geometry));
     });
 });
 
