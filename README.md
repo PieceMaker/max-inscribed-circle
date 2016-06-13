@@ -50,7 +50,7 @@ Just include the file in your page, and then reference it:
 You can simple require the module directly, after installing it from NPM.
 
 ```javascript
-var maxCircle = require('./maxInscribedCircle.js');
+var maxCircle = require('./max-inscribed-circle.js');
 var polygon = { /* ... */};
 
 console.log(maxCircle(polygon));
@@ -59,7 +59,7 @@ console.log(maxCircle(polygon));
 ## Examples
 
 ```javascript
-var maxCircle = require('./maxInscribedCircle.js');
+var maxCircle = require('./max-inscribed-circle.js');
 var polygon = {
     "type": "Feature",
     "geometry": {
