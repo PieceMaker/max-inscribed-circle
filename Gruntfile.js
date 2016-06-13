@@ -11,28 +11,28 @@ module.exports = function(grunt)
                 options: {
                     browserifyOptions: {
                         debug: true,
-                        standalone: 'maxInscribedCircle'
+                        standalone: 'max-inscribed-circle'
                     }
                 },
                 files: {
-                    "./dist/max-inscribed-circle.js": "maxInscribedCircle.js"
+                    "./dist/max-inscribed-circle.js": "max-inscribed-circle.js"
                 }
             },
             prod: {
                 options: {
                     browserifyOptions: {
-                        standalone: 'maxInscribedCircle'
+                        standalone: 'max-inscribed-circle'
                     },
                     plugin: [ ["minifyify", { map: false }] ]
                 },
                 files: {
-                    "./dist/max-inscribed-circle.min.js": "maxInscribedCircle.js"
+                    "./dist/max-inscribed-circle.min.js": "max-inscribed-circle.js"
                 }
             }
         },
         watch: {
-            maxInscribedCircle: {
-                files: ["maxInscribedCircle.js"],
+            "max-inscribed-circle": {
+                files: ["max-inscribed-circle.js"],
                 tasks: ["browserify:debug"]
             }
         },
