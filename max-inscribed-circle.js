@@ -1,12 +1,12 @@
-var Voronoi = require('voronoi');
-var voronoi = new Voronoi;
-var centroid = require('turf-centroid');
-var point = require('turf-point');
-var pointOnLine = require('./lib/turf-point-on-line/index.js');
-var within = require('turf-within');
-var makeError = require('make-error');
-var NoPointsInShapeError = makeError('NoPointsInShapeError');
-var GeoJSONUtils = require('./utils/geojson-utils.js');
+const Voronoi = require('voronoi');
+const voronoi = new Voronoi;
+const centroid = require('turf-centroid');
+const point = require('turf-point');
+const pointOnLine = require('./lib/turf-point-on-line/index.js');
+const within = require('turf-within');
+const makeError = require('make-error');
+const NoPointsInShapeError = makeError('NoPointsInShapeError');
+const GeoJSONUtils = require('./utils/geojson-utils.js');
 
 /**
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
@@ -22,14 +22,14 @@ var GeoJSONUtils = require('./utils/geojson-utils.js');
 
 module.exports = function(polygon, decimalPlaces) {
     polygon = GeoJSONUtils.fixMultiPoly(polygon);
-    var polySites = GeoJSONUtils.sites(polygon, decimalPlaces);
-    var diagram = voronoi.compute(polySites.sites, polySites.bbox);
-    var vertices = {
+    const polySites = GeoJSONUtils.sites(polygon, decimalPlaces);
+    const diagram = voronoi.compute(polySites.sites, polySites.bbox);
+    const vertices = {
         type: "FeatureCollection",
         features: []
     };
     //construct GeoJSON object of voronoi vertices
-    for(var i = 0; i < diagram.vertices.length; i++) {
+    for(let i = 0; i < diagram.vertices.length; i++) {
         vertices.features.push({
             type: "Feature",
             properties: {},
@@ -41,26 +41,26 @@ module.exports = function(polygon, decimalPlaces) {
     }
     vertices.features.push(centroid(polygon));
     //within requires a FeatureCollection for input polygons
-    var polygonFeatureCollection = {
+    const polygonFeatureCollection = {
         type: "FeatureCollection",
         features: [polygon]
     };
-    var ptsWithin = within(vertices, polygonFeatureCollection); //remove any vertices that are not inside the polygon
-    if(ptsWithin.features.length == 0) {
+    const ptsWithin = within(vertices, polygonFeatureCollection); //remove any vertices that are not inside the polygon
+    if(ptsWithin.features.length === 0) {
         throw new NoPointsInShapeError('Neither the centroid nor any Voronoi vertices intersect the shape.');
     }
-    var labelLocation = {
+    const labelLocation = {
         coordinates: [0,0],
         maxDist: 0
     };
-    var polygonBoundaries = {
+    const polygonBoundaries = {
         type: "FeatureCollection",
         features: []
     };
-    var vertexDistance;
+    let vertexDistance;
 
     //define borders of polygon and holes as LineStrings
-    for(var j = 0; j < polygon.geometry.coordinates.length; j++) {
+    for(let j = 0; j < polygon.geometry.coordinates.length; j++) {
         polygonBoundaries.features.push({
             type: "Feature",
             properties: {},
@@ -71,9 +71,9 @@ module.exports = function(polygon, decimalPlaces) {
         })
     }
 
-    for(var k = 0; k < ptsWithin.features.length; k++) {
-        for(var l = 0; l < polygonBoundaries.features.length; l++) {
-            if(l == 0) {
+    for(let k = 0; k < ptsWithin.features.length; k++) {
+        for(let l = 0; l < polygonBoundaries.features.length; l++) {
+            if(l === 0) {
                 vertexDistance = pointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist;
             } else {
                 vertexDistance = Math.min(vertexDistance,

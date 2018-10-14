@@ -4,9 +4,9 @@
 // @module maxInscribedCircle.spec.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var expect = require('chai').expect;
-var centroid = require('turf-centroid');
-var maxCircle = require('../dist/max-inscribed-circle.js');
+const expect = require('chai').expect;
+const centroid = require('turf-centroid');
+const maxCircle = require('../dist/max-inscribed-circle.js');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
