@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 const expect = require('chai').expect;
-const centroid = require('turf-centroid');
+const centroid = require('@turf/centroid').default;
 const maxCircle = require('../dist/max-inscribed-circle.js');
 
 // ---------------------------------------------------------------------------------------------------------------------

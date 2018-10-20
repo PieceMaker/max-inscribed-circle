@@ -1,9 +1,9 @@
 const Voronoi = require('voronoi');
 const voronoi = new Voronoi;
-const centroid = require('turf-centroid');
+const centroid = require('@turf/centroid').default;
 const point = require('turf-point');
 const nearestPointOnLine = require('@turf/nearest-point-on-line').default;
-const within = require('turf-within');
+const within = require('@turf/points-within-polygon').default;
 const makeError = require('make-error');
 const NoPointsInShapeError = makeError('NoPointsInShapeError');
 const GeoJSONUtils = require('./utils/geojson-utils.js');
