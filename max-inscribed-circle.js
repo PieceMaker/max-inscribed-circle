@@ -12,8 +12,8 @@ const GeoJSONUtils = require('./utils/geojson-utils.js');
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
  *
  * @module turf/label-position
- * @param {Polygon} polygon a Polygon feature of the underlying polygon geometry in EPSG:4326
- * @param decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
+ * @param {Polygon} polygon A GeoJSON Polygon feature of the underlying polygon geometry in EPSG:4326
+ * @param {number} decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
  *   bbox. This is a workaround due to the issue referred to here:
  *   https://github.com/gorhill/Javascript-Voronoi/issues/15
  *   If left empty, will default to tuncating at 20th decimal place.

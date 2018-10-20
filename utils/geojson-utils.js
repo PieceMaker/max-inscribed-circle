@@ -16,7 +16,7 @@ class GeoJSONUtils {
     /**
      * Checks to see if the feature is a Polygon formatted as a MultiPolygon.
      *
-     * @param polygon
+     * @param {Polygon} polygon
      * @returns {Polygon}
      */
     fixMultiPoly(polygon) {
@@ -28,11 +28,11 @@ class GeoJSONUtils {
             return polygon;
         } else if(polygon.geometry.type === 'MultiPolygon' && polygon.geometry.coordinates[0].length > 1) {
             // Handle a true MultiPolygon by returning the Polygon of largest area
-            const polygons = _.map(polygon.geometry.coordinates[0], function(coordinates) {
+            const polygons = _.map(polygon.geometry.coordinates[0], ((coordinates) => {
                 return this._toGeoJSONFeature(
                     this._toGeoJSONPolygon(coordinates)
                 );
-            });
+            }));
             const collectionArea = _.map(polygons, area);
             const largestAreaIndex = _.indexOf(collectionArea, _.max(collectionArea));
 
@@ -45,12 +45,12 @@ class GeoJSONUtils {
     /**
      * Takes a polygon and generates the sites needed to generate Voronoi
      *
-     * @param polygon
-     * @param decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
+     * @param {Polygon} polygon
+     * @param {number} decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
      *   bbox. This is a workaround due to the issue referred to here:
      *   https://github.com/gorhill/Javascript-Voronoi/issues/15
      *   Defaults to 1e-20.
-     * @returns {{sites: Array, bbox: {xl: *, xr: *, yt: *, yb: *}}}
+     * @returns {{sites: Array, bbox: {xl: number, xr: number, yt: number, yb: number}}}
      */
     sites(polygon, decimalPlaces) {
         if(decimalPlaces === undefined) {
@@ -105,8 +105,8 @@ class GeoJSONUtils {
     }
 
     /**
-     * @param geom
-     * @returns {{type: string, geometry: *}}
+     * @param {Geometry} geom
+     * @returns {{type: string, geometry: Geometry}}
      * @private
      */
     _toGeoJSONFeature(geom) {
@@ -117,8 +117,8 @@ class GeoJSONUtils {
     }
 
     /**
-     * @param coordinates
-     * @returns {{type: string, coordinates: *}}
+     * @param {number[]} coordinates
+     * @returns {{type: string, coordinates: number[]}}
      * @private
      */
     _toGeoJSONPolygon(coordinates) {
