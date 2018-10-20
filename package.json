@@ -4,6 +4,7 @@
   "description": "A library to calculate the optimal point inside a polygon",
   "main": "max-inscribed-circle.js",
   "dependencies": {
+    "@turf/nearest-point-on-line": "^6.0.2",
     "make-error": "^1.1.1",
     "turf-area": "^1.1.1",
     "turf-bearing": "^1.0.2",

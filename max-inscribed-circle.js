@@ -2,7 +2,7 @@ const Voronoi = require('voronoi');
 const voronoi = new Voronoi;
 const centroid = require('turf-centroid');
 const point = require('turf-point');
-const pointOnLine = require('./lib/turf-point-on-line/index.js');
+const nearestPointOnLine = require('@turf/nearest-point-on-line').default;
 const within = require('turf-within');
 const makeError = require('make-error');
 const NoPointsInShapeError = makeError('NoPointsInShapeError');
@@ -74,10 +74,10 @@ module.exports = function(polygon, decimalPlaces) {
     for(let k = 0; k < ptsWithin.features.length; k++) {
         for(let l = 0; l < polygonBoundaries.features.length; l++) {
             if(l === 0) {
-                vertexDistance = pointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist;
+                vertexDistance = nearestPointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist;
             } else {
                 vertexDistance = Math.min(vertexDistance,
-                    pointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist);
+                    nearestPointOnLine(polygonBoundaries.features[l], ptsWithin.features[k]).properties.dist);
             }
         }
         if(vertexDistance > labelLocation.maxDist) {
