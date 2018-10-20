@@ -89,10 +89,15 @@ console.log(maxCircle(polygon));
         "type": "Point",
         "coordinates": [1.25,3.5]
     },
-    "properties": {}
+    "properties": {
+        "radius": 0.4994165362629234,
+        "units": "degrees"
+    }
 }
 */
 ```
+
+If a maximum circle cannot be inscribed, then the underlying centroid will be returned. In this case, `properties` will not define `radius` or `units`.
 
 ## Future
 

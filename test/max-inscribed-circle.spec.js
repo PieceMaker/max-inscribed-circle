@@ -41,7 +41,21 @@ describe('MaxInscribedCircle', function()
                 "type": "Point",
                 "coordinates": [1.25, 3.5]
             },
-            "properties": {}
+            "properties": {
+                "radius": 0.4994165362629234,
+                "units": "degrees"
+            }
+        };
+        this.expectedPointRadians = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [1.25, 3.5]
+            },
+            "properties": {
+                "radius": 0.008726647167630651,
+                "units": "radians"
+            }
         };
 
         // Test 2
@@ -118,10 +132,15 @@ describe('MaxInscribedCircle', function()
         // Code goes here.
     });
 
-    // Test 1
+    // Test 1a
     it('should output the expected GeoJSON point', function()
     {
         expect(maxCircle(this.inputPolygon)).to.eql(this.expectedPoint);
+    });
+    // Test 1b
+    it('should output the expected GeoJSON point with radius in radians', function()
+    {
+        expect(maxCircle(this.inputPolygon, undefined, 'radians')).to.eql(this.expectedPointRadians);
     });
 
     // Test 2
