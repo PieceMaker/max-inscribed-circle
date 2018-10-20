@@ -4,9 +4,9 @@
 // @module maxInscribedCircle.spec.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var expect = require('chai').expect;
-var centroid = require('turf-centroid');
-var maxCircle = require('../dist/max-inscribed-circle.js');
+const expect = require('chai').expect;
+const centroid = require('@turf/centroid').default;
+const maxCircle = require('../dist/max-inscribed-circle.js');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -121,25 +121,25 @@ describe('MaxInscribedCircle', function()
     // Test 1
     it('should output the expected GeoJSON point', function()
     {
-        expect(JSON.stringify(maxCircle(this.inputPolygon))).to.equal(JSON.stringify(this.expectedPoint));
+        expect(maxCircle(this.inputPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 2
     it('should handle Polygons in format of MultiPolygons correctly', function()
     {
-        expect(JSON.stringify(maxCircle(this.inputFakeMultiPolygon))).to.equal(JSON.stringify(this.expectedPoint));
+        expect(maxCircle(this.inputFakeMultiPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 3
     it('should handle MultiPolygons correctly', function()
     {
-        expect(JSON.stringify(maxCircle(this.inputMultiPolygon))).to.equal(JSON.stringify(this.expectedPoint));
+        expect(maxCircle(this.inputMultiPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 4
     it('should return the centroid when no Voronoi vertices are inside polygon', function()
     {
-        expect(JSON.stringify(maxCircle(this.inputTinyPolygon).geometry)).to.equal(JSON.stringify(centroid(this.inputTinyPolygon).geometry));
+        expect(maxCircle(this.inputTinyPolygon).geometry).to.eql(centroid(this.inputTinyPolygon).geometry);
     });
 });
 

@@ -4,15 +4,12 @@
   "description": "A library to calculate the optimal point inside a polygon",
   "main": "max-inscribed-circle.js",
   "dependencies": {
+    "@turf/area": "^6.0.1",
+    "@turf/centroid": "^6.0.2",
+    "@turf/nearest-point-on-line": "^6.0.2",
+    "@turf/points-within-polygon": "^5.1.5",
     "make-error": "^1.1.1",
-    "turf-area": "^1.1.1",
-    "turf-bearing": "^1.0.2",
-    "turf-centroid": "^3.0.5",
-    "turf-destination": "^1.2.1",
-    "turf-distance": "^1.1.0",
-    "turf-linestring": "^1.0.2",
     "turf-point": "^2.0.1",
-    "turf-within": "^1.0.1",
     "voronoi": "^1.0.0"
   },
   "devDependencies": {
