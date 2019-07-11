@@ -46,13 +46,15 @@ class GeoJSONUtils {
      * Takes a polygon and generates the sites needed to generate Voronoi
      *
      * @param {Polygon} polygon
+     * @param {integer} [numSegments=2] The number of equal segments we split each polygon line into.
+     *   The higher the value, the better the medial axis approximation. However, comput time will increase.
      * @param {number} [decimalPlaces=1e-20] A power of 10 used to truncate the decimal places of the polygon sites and
      *   bbox. This is a workaround due to the issue referred to here:
      *   https://github.com/gorhill/Javascript-Voronoi/issues/15
      *   Defaults to 1e-20.
      * @returns {{sites: Array, bbox: {xl: number, xr: number, yt: number, yb: number}}}
      */
-    sites(polygon, decimalPlaces = 1e-20) {
+    sites(polygon, numSegments = 2, decimalPlaces = 1e-20) {
         let polygonSites = [];
         let xmin,xmax,ymin,ymax;
         for(let i = 0; i < polygon.geometry.coordinates.length; i++) {
@@ -63,11 +65,13 @@ class GeoJSONUtils {
                     x: Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces,
                     y: Math.floor(polyRing[j][1] / decimalPlaces) * decimalPlaces
                 });
-                //Push midpoints of segments
-                polygonSites.push({
-                    x: Math.floor(((polyRing[j][0]+polyRing[j+1][0]) / 2) / decimalPlaces) * decimalPlaces,
-                    y: Math.floor(((polyRing[j][1]+polyRing[j+1][1]) / 2) / decimalPlaces) * decimalPlaces
-                });
+                //Push segments
+                for(let k = 1; k < numSegments; k++) {
+                    polygonSites.push({
+                        x: Math.floor((polyRing[j][0]+(polyRing[j+1][0]-polyRing[j][0]) * k / numSegments) / decimalPlaces) * decimalPlaces,
+                        y: Math.floor((polyRing[j][1]+(polyRing[j+1][1]-polyRing[j][1]) * k / numSegments) / decimalPlaces) * decimalPlaces
+                    });
+                }
                 //initialize bounding box
                 if((i === 0) && (j === 0)) {
                     xmin = Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces;
