@@ -1,3 +1,4 @@
+const assert = require('chai').assert;
 const Voronoi = require('voronoi');
 const voronoi = new Voronoi;
 const centroid = require('@turf/centroid').default;
@@ -11,17 +12,36 @@ const GeoJSONUtils = require('./utils/geojson-utils.js');
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
  *
  * @module turf/label-position
- * @param {Polygon} polygon A GeoJSON Polygon feature of the underlying polygon geometry in EPSG:4326
- * @param {number} decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
- *   bbox. This is a workaround due to the issue referred to here:
+ * @param {Polygon} polygon - A GeoJSON Polygon feature of the underlying polygon geometry in EPSG:4326
+ * @param {Object} options
+ * @param {number} [options.decimalPlaces=1e-20] A power of 10 used to truncate the decimal places of the
+ *   polygon sites and bbox. This is a workaround due to the issue referred to here:
  *   https://github.com/gorhill/Javascript-Voronoi/issues/15
  *   If left empty, will default to tuncating at 20th decimal place.
- * @param {string} [units="degrees"] The units of the returned radius. Defaults to "degrees" as that's the units of
- *   the input coordinates, but may also be "radians", "miles", or "kilometers".
- * @returns {Point} a Point feature at the best estimated label position
+ * @param {string} [options.units="degrees"] The units of the returned radius. Defaults to "degrees" as that's
+ *   the units of the input coordinates, but may also be "radians", "miles", or "kilometers".
+ * @returns {Point} A Point feature at the best estimated label position
  */
 
-module.exports = function(polygon, decimalPlaces, units = "degrees") {
+module.exports = function(polygon, options) {
+    options = Object.assign(
+        {},
+        {
+            decimalPlaces: 1e-20,
+            units: "degrees"
+        }, // Default
+        options // Overrides
+    );
+    assert.isNumber(options.decimalPlaces);
+    assert.include(
+        [ 'degrees', 'kilometers', 'miles', 'radians' ],
+        options.units,
+        'Invalid value for "options.decimalPlaces". Value values are: "degrees", "kilometers", "miles", and "radians".'
+    );
+
+    const decimalPlaces = options.decimalPlaces;
+    const units = options.units;
+
     polygon = GeoJSONUtils.fixMultiPoly(polygon);
     const polySites = GeoJSONUtils.sites(polygon, decimalPlaces);
     const diagram = voronoi.compute(polySites.sites, polySites.bbox);
@@ -93,5 +113,3 @@ module.exports = function(polygon, decimalPlaces, units = "degrees") {
 
     return point(labelLocation.coordinates, {radius: labelLocation.maxDist, units: units});
 };
-
-module.exports.NoPointsInShapeError = NoPointsInShapeError;

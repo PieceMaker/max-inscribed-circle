@@ -140,7 +140,7 @@ describe('MaxInscribedCircle', function()
     // Test 1b
     it('should output the expected GeoJSON point with radius in radians', function()
     {
-        expect(maxCircle(this.inputPolygon, undefined, 'radians')).to.eql(this.expectedPointRadians);
+        expect(maxCircle(this.inputPolygon, {units: "radians"})).to.eql(this.expectedPointRadians);
     });
 
     // Test 2
