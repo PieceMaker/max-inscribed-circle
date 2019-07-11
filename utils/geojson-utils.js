@@ -46,16 +46,13 @@ class GeoJSONUtils {
      * Takes a polygon and generates the sites needed to generate Voronoi
      *
      * @param {Polygon} polygon
-     * @param {number} decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
+     * @param {number} [decimalPlaces=1e-20] A power of 10 used to truncate the decimal places of the polygon sites and
      *   bbox. This is a workaround due to the issue referred to here:
      *   https://github.com/gorhill/Javascript-Voronoi/issues/15
      *   Defaults to 1e-20.
      * @returns {{sites: Array, bbox: {xl: number, xr: number, yt: number, yb: number}}}
      */
-    sites(polygon, decimalPlaces) {
-        if(decimalPlaces === undefined) {
-            decimalPlaces = 1e-20;
-        }
+    sites(polygon, decimalPlaces = 1e-20) {
         let polygonSites = [];
         let xmin,xmax,ymin,ymax;
         for(let i = 0; i < polygon.geometry.coordinates.length; i++) {
