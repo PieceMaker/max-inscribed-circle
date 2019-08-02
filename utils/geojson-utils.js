@@ -4,15 +4,12 @@
 // @module
 // ---------------------------------------------------------------------------------------------------------------------
 
-const area = require('@turf/area').default;
-const _ = require('lodash');
+import area from '@turf/area';
+import {indexOf, map, max} from 'lodash';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 class GeoJSONUtils {
-    constructor() {
-    }
-
     /**
      * Checks to see if the feature is a Polygon formatted as a MultiPolygon.
      *
@@ -28,13 +25,13 @@ class GeoJSONUtils {
             return polygon;
         } else if(polygon.geometry.type === 'MultiPolygon' && polygon.geometry.coordinates[0].length > 1) {
             // Handle a true MultiPolygon by returning the Polygon of largest area
-            const polygons = _.map(polygon.geometry.coordinates[0], ((coordinates) => {
+            const polygons = map(polygon.geometry.coordinates[0], ((coordinates) => {
                 return this._toGeoJSONFeature(
                     this._toGeoJSONPolygon(coordinates)
                 );
             }));
-            const collectionArea = _.map(polygons, area);
-            const largestAreaIndex = _.indexOf(collectionArea, _.max(collectionArea));
+            const collectionArea = map(polygons, area);
+            const largestAreaIndex = indexOf(collectionArea, max(collectionArea));
 
             return polygons[largestAreaIndex];
         } else {
@@ -46,16 +43,15 @@ class GeoJSONUtils {
      * Takes a polygon and generates the sites needed to generate Voronoi
      *
      * @param {Polygon} polygon
-     * @param {number} decimalPlaces A power of 10 used to truncate the decimal places of the polygon sites and
+     * @param {integer} [numSegments=2] The number of equal segments we split each polygon line into.
+     *   The higher the value, the better the medial axis approximation. However, comput time will increase.
+     * @param {number} [decimalPlaces=1e-20] A power of 10 used to truncate the decimal places of the polygon sites and
      *   bbox. This is a workaround due to the issue referred to here:
      *   https://github.com/gorhill/Javascript-Voronoi/issues/15
      *   Defaults to 1e-20.
      * @returns {{sites: Array, bbox: {xl: number, xr: number, yt: number, yb: number}}}
      */
-    sites(polygon, decimalPlaces) {
-        if(decimalPlaces === undefined) {
-            decimalPlaces = 1e-20;
-        }
+    sites(polygon, numSegments = 2, decimalPlaces = 1e-20) {
         let polygonSites = [];
         let xmin,xmax,ymin,ymax;
         for(let i = 0; i < polygon.geometry.coordinates.length; i++) {
@@ -66,11 +62,13 @@ class GeoJSONUtils {
                     x: Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces,
                     y: Math.floor(polyRing[j][1] / decimalPlaces) * decimalPlaces
                 });
-                //Push midpoints of segments
-                polygonSites.push({
-                    x: Math.floor(((polyRing[j][0]+polyRing[j+1][0]) / 2) / decimalPlaces) * decimalPlaces,
-                    y: Math.floor(((polyRing[j][1]+polyRing[j+1][1]) / 2) / decimalPlaces) * decimalPlaces
-                });
+                //Push segments
+                for(let k = 1; k < numSegments; k++) {
+                    polygonSites.push({
+                        x: Math.floor((polyRing[j][0]+(polyRing[j+1][0]-polyRing[j][0]) * k / numSegments) / decimalPlaces) * decimalPlaces,
+                        y: Math.floor((polyRing[j][1]+(polyRing[j+1][1]-polyRing[j][1]) * k / numSegments) / decimalPlaces) * decimalPlaces
+                    });
+                }
                 //initialize bounding box
                 if((i === 0) && (j === 0)) {
                     xmin = Math.floor(polyRing[j][0] / decimalPlaces) * decimalPlaces;
@@ -132,6 +130,6 @@ class GeoJSONUtils {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.exports = new GeoJSONUtils();
+export default new GeoJSONUtils();
 
 // ---------------------------------------------------------------------------------------------------------------------

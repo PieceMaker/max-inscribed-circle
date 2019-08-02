@@ -4,9 +4,9 @@
 // @module maxInscribedCircle.spec.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-const expect = require('chai').expect;
-const centroid = require('@turf/centroid').default;
-const maxCircle = require('../dist/max-inscribed-circle.js');
+import { expect } from 'chai';
+import centroid from '@turf/centroid';
+import maxInscribedCircle from '../max-inscribed-circle';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -42,7 +42,23 @@ describe('MaxInscribedCircle', function()
                 "coordinates": [1.25, 3.5]
             },
             "properties": {
+                "id": 1,
                 "radius": 0.4994165362629234,
+                "units": "degrees"
+            }
+        };
+        this.expectedPointFiveSegments = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0.5608695652173914,
+                    3.4043478260869566
+                ]
+            },
+            "properties": {
+                "id": 1,
+                "radius": 0.5592622404253412,
                 "units": "degrees"
             }
         };
@@ -53,6 +69,7 @@ describe('MaxInscribedCircle', function()
                 "coordinates": [1.25, 3.5]
             },
             "properties": {
+                "id": 1,
                 "radius": 0.008726647167630651,
                 "units": "radians"
             }
@@ -125,6 +142,62 @@ describe('MaxInscribedCircle', function()
             },
             "properties": {}
         };
+
+        // Test 5
+        this.issuePolygon = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            49.0138,
+                            15
+                        ],
+                        [
+                            49.0138,
+                            15.0167
+                        ],
+                        [
+                            49.0153,
+                            15.0167
+                        ],
+                        [
+                            49.0138,
+                            15
+                        ]
+                    ]
+                ]
+            }
+        };
+        this.expectedIssuePointTwoSegments = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    49.014175,
+                    15.012525
+                ]
+            },
+            "properties": {
+                "radius": 0.0003617784458710126,
+                "units": "degrees"
+            }
+        };
+        this.expectedIssuePointTenSegments = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    49.014475000000004,
+                    15.015730269461077
+                ]
+            },
+            "properties": {
+                "radius": 0.0006511913547888886,
+                "units": "degrees"
+            }
+        };
     });
 
     afterEach(function()
@@ -135,30 +208,46 @@ describe('MaxInscribedCircle', function()
     // Test 1a
     it('should output the expected GeoJSON point', function()
     {
-        expect(maxCircle(this.inputPolygon)).to.eql(this.expectedPoint);
+        expect(maxInscribedCircle(this.inputPolygon)).to.eql(this.expectedPoint);
     });
     // Test 1b
     it('should output the expected GeoJSON point with radius in radians', function()
     {
-        expect(maxCircle(this.inputPolygon, undefined, 'radians')).to.eql(this.expectedPointRadians);
+        expect(maxInscribedCircle(this.inputPolygon, {units: "radians"})).to.eql(this.expectedPointRadians);
+    });
+    // Test 1c
+    it('should correctly calculate segments', function()
+    {
+        expect(maxInscribedCircle(this.inputPolygon, {numSegments: 5})).to.eql(this.expectedPointFiveSegments);
     });
 
     // Test 2
     it('should handle Polygons in format of MultiPolygons correctly', function()
     {
-        expect(maxCircle(this.inputFakeMultiPolygon)).to.eql(this.expectedPoint);
+        expect(maxInscribedCircle(this.inputFakeMultiPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 3
     it('should handle MultiPolygons correctly', function()
     {
-        expect(maxCircle(this.inputMultiPolygon)).to.eql(this.expectedPoint);
+        expect(maxInscribedCircle(this.inputMultiPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 4
     it('should return the centroid when no Voronoi vertices are inside polygon', function()
     {
-        expect(maxCircle(this.inputTinyPolygon).geometry).to.eql(centroid(this.inputTinyPolygon).geometry);
+        expect(maxInscribedCircle(this.inputTinyPolygon).geometry).to.eql(centroid(this.inputTinyPolygon).geometry);
+    });
+
+    // Test 5a
+    it('should return the expected point for polygon submitted in issue', function()
+    {
+        expect(maxInscribedCircle(this.issuePolygon, {numSegments: 2})).to.eql(this.expectedIssuePointTwoSegments);
+    });
+    // Test 5b
+    it('should return the expected point for polygon submitted in issue', function()
+    {
+        expect(maxInscribedCircle(this.issuePolygon, {numSegments: 10})).to.eql(this.expectedIssuePointTenSegments);
     });
 });
 
