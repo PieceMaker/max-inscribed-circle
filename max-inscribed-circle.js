@@ -1,12 +1,12 @@
-const assert = require('chai').assert;
-const Voronoi = require('voronoi');
+import {assert} from 'chai';
+import Voronoi from 'voronoi';
 const voronoi = new Voronoi;
-const centroid = require('@turf/centroid').default;
-const point = require('turf-point');
-const nearestPointOnLine = require('@turf/nearest-point-on-line').default;
-const within = require('@turf/points-within-polygon').default;
-const { NoPointsInShapeError } = require('./errors');
-const GeoJSONUtils = require('./utils/geojson-utils.js');
+import centroid from '@turf/centroid';
+import point from 'turf-point';
+import nearestPointOnLine from '@turf/nearest-point-on-line';
+import within from '@turf/points-within-polygon';
+import { NoPointsInShapeError } from './errors';
+import GeoJSONUtils from './utils/geojson-utils.js';
 
 /**
  * Takes a polygon feature and estimates the best position for label placement that is guaranteed to be inside the polygon. This uses voronoi to estimate the medial axis.
@@ -25,7 +25,7 @@ const GeoJSONUtils = require('./utils/geojson-utils.js');
  * @returns {Point} A Point feature at the best estimated label position
  */
 
-module.exports = function(polygon, options) {
+function maxInscribedCircle(polygon, options) {
     options = Object.assign(
         {},
         {
@@ -117,3 +117,5 @@ module.exports = function(polygon, options) {
 
     return point(labelLocation.coordinates, {radius: labelLocation.maxDist, units: units});
 };
+
+export default maxInscribedCircle;

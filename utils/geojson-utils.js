@@ -4,15 +4,12 @@
 // @module
 // ---------------------------------------------------------------------------------------------------------------------
 
-const area = require('@turf/area').default;
-const _ = require('lodash');
+import area from '@turf/area';
+import {indexOf, map, max} from 'lodash';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 class GeoJSONUtils {
-    constructor() {
-    }
-
     /**
      * Checks to see if the feature is a Polygon formatted as a MultiPolygon.
      *
@@ -28,13 +25,13 @@ class GeoJSONUtils {
             return polygon;
         } else if(polygon.geometry.type === 'MultiPolygon' && polygon.geometry.coordinates[0].length > 1) {
             // Handle a true MultiPolygon by returning the Polygon of largest area
-            const polygons = _.map(polygon.geometry.coordinates[0], ((coordinates) => {
+            const polygons = map(polygon.geometry.coordinates[0], ((coordinates) => {
                 return this._toGeoJSONFeature(
                     this._toGeoJSONPolygon(coordinates)
                 );
             }));
-            const collectionArea = _.map(polygons, area);
-            const largestAreaIndex = _.indexOf(collectionArea, _.max(collectionArea));
+            const collectionArea = map(polygons, area);
+            const largestAreaIndex = indexOf(collectionArea, max(collectionArea));
 
             return polygons[largestAreaIndex];
         } else {
@@ -133,6 +130,6 @@ class GeoJSONUtils {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.exports = new GeoJSONUtils();
+export default new GeoJSONUtils();
 
 // ---------------------------------------------------------------------------------------------------------------------

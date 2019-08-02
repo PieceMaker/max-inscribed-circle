@@ -1,4 +1,4 @@
-class NoPointsInShapeError extends Error {
+export class NoPointsInShapeError extends Error {
     constructor(message, polygon, vertices) {
         super(message);
         this.polygon = polygon;
@@ -13,7 +13,3 @@ class NoPointsInShapeError extends Error {
         };
     }
 }
-
-module.exports = {
-    NoPointsInShapeError
-};

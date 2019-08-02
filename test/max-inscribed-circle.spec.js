@@ -4,9 +4,9 @@
 // @module maxInscribedCircle.spec.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-const expect = require('chai').expect;
-const centroid = require('@turf/centroid').default;
-const maxCircle = require('../dist/max-inscribed-circle.js');
+import { expect } from 'chai';
+import centroid from '@turf/centroid';
+import maxInscribedCircle from '../max-inscribed-circle';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -208,46 +208,46 @@ describe('MaxInscribedCircle', function()
     // Test 1a
     it('should output the expected GeoJSON point', function()
     {
-        expect(maxCircle(this.inputPolygon)).to.eql(this.expectedPoint);
+        expect(maxInscribedCircle(this.inputPolygon)).to.eql(this.expectedPoint);
     });
     // Test 1b
     it('should output the expected GeoJSON point with radius in radians', function()
     {
-        expect(maxCircle(this.inputPolygon, {units: "radians"})).to.eql(this.expectedPointRadians);
+        expect(maxInscribedCircle(this.inputPolygon, {units: "radians"})).to.eql(this.expectedPointRadians);
     });
     // Test 1c
     it('should correctly calculate segments', function()
     {
-        expect(maxCircle(this.inputPolygon, {numSegments: 5})).to.eql(this.expectedPointFiveSegments);
+        expect(maxInscribedCircle(this.inputPolygon, {numSegments: 5})).to.eql(this.expectedPointFiveSegments);
     });
 
     // Test 2
     it('should handle Polygons in format of MultiPolygons correctly', function()
     {
-        expect(maxCircle(this.inputFakeMultiPolygon)).to.eql(this.expectedPoint);
+        expect(maxInscribedCircle(this.inputFakeMultiPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 3
     it('should handle MultiPolygons correctly', function()
     {
-        expect(maxCircle(this.inputMultiPolygon)).to.eql(this.expectedPoint);
+        expect(maxInscribedCircle(this.inputMultiPolygon)).to.eql(this.expectedPoint);
     });
 
     // Test 4
     it('should return the centroid when no Voronoi vertices are inside polygon', function()
     {
-        expect(maxCircle(this.inputTinyPolygon).geometry).to.eql(centroid(this.inputTinyPolygon).geometry);
+        expect(maxInscribedCircle(this.inputTinyPolygon).geometry).to.eql(centroid(this.inputTinyPolygon).geometry);
     });
 
     // Test 5a
     it('should return the expected point for polygon submitted in issue', function()
     {
-        expect(maxCircle(this.issuePolygon, {numSegments: 2})).to.eql(this.expectedIssuePointTwoSegments);
+        expect(maxInscribedCircle(this.issuePolygon, {numSegments: 2})).to.eql(this.expectedIssuePointTwoSegments);
     });
     // Test 5b
     it('should return the expected point for polygon submitted in issue', function()
     {
-        expect(maxCircle(this.issuePolygon, {numSegments: 10})).to.eql(this.expectedIssuePointTenSegments);
+        expect(maxInscribedCircle(this.issuePolygon, {numSegments: 10})).to.eql(this.expectedIssuePointTenSegments);
     });
 });
 
