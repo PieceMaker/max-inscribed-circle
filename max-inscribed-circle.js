@@ -13,7 +13,7 @@ import GeoJSONUtils from './utils/geojson-utils.js';
  *
  * @module turf/label-position
  * @param {Polygon} polygon - A GeoJSON Polygon feature of the underlying polygon geometry in EPSG:4326
- * @param {Object} options
+ * @param {Object} [options]
  * @param {number} [options.decimalPlaces=1e-20] A power of 10 used to truncate the decimal places of the
  *   polygon sites and bbox. This is a workaround due to the issue referred to here:
  *   https://github.com/gorhill/Javascript-Voronoi/issues/15
@@ -39,7 +39,7 @@ function maxInscribedCircle(polygon, options) {
     assert.include(
         [ 'degrees', 'kilometers', 'miles', 'radians' ],
         options.units,
-        'Invalid value for "options.decimalPlaces". Value values are: "degrees", "kilometers", "miles", and "radians".'
+        'Invalid value for "options.units". Value values are: "degrees", "kilometers", "miles", and "radians".'
     );
 
     const decimalPlaces = options.decimalPlaces;
