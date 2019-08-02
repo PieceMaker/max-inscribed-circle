@@ -8,13 +8,13 @@ uses Voronoi to approximate the medial axis.
 This library takes a GeoJSON feature with Polygon geometry and returns the centroid of the maximum-radius inscribed
 circle as a GeoJSON feature with Point geometry.
 
-Version 1.* of this library provided a compiled, browser-ready version in the `dist/` directory. In version 2.* we
-have opted to converted the entire library into an ES6 module. See the section on ES6 to learn how to run this in
-NodeJS.
-
 It is important to note that due to the underlying `turf` dependencies, this library has been written to work primarily
 with `(lat,lon)` coordinates. If the polygon is in a known projection then it is recommended you transform it to
 `WGS84 (EPSG:4326)`. The `reproject` and `pro4` libraries on NPM are good for this.
+
+Version 1.* of this library provided a compiled, browser-ready version in the `dist/` directory. In version 2.* we
+have opted to convert the entire library into an ES6 module. See the section on ES6 to learn how to run this in
+NodeJS.
 
 ## Install
 
