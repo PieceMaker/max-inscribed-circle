@@ -17,9 +17,9 @@ import GeoJSONUtils from './utils/geojson-utils.js';
  * @param {number} [options.decimalPlaces=1e-20] A power of 10 used to truncate the decimal places of the
  *   polygon sites and bbox. This is a workaround due to the issue referred to here:
  *   https://github.com/gorhill/Javascript-Voronoi/issues/15
- *   If left empty, will default to tuncating at 20th decimal place.
+ *   If left empty, will default to truncating at 20th decimal place.
  * @param {integer} [options.numSegments=2] The number of equal segments we split each polygon line into.
- *   The higher the value, the better the medial axis approximation. However, comput time will increase.
+ *   The higher the value, the better the medial axis approximation. However, compute time will increase.
  * @param {string} [options.units="degrees"] The units of the returned radius. Defaults to "degrees" as that's
  *   the units of the input coordinates, but may also be "radians", "miles", or "kilometers".
  * @returns {Point} A Point feature at the best estimated label position

@@ -3,64 +3,35 @@ A NodeJS implementation of an algorithm for finding the center of the maximum-ra
    
 This library takes a GeoJSON feature with Polygon geometry and returns the centroid of the maximum-radius inscribed circle as a GeoJSON feature with Point geometry.
 
-This library uses browserify to build a browser-ready version of this library. This version is included in the `dist/` directory.
+Version 1.* of this library provided a compiled, browser-ready version in the `dist/` directory. In version 2.* we
+have opted to converted the entire library into an ES6 module. See the section on ES6 to learn how to run this in
+NodeJS.
 
 It is important to note that due to the underlying `turf` dependencies, this library has been written to work primarily with `(lat,lon)` coordinates. If the polygon is in a known projection then it is recommended you transform it to `WGS84 (EPSG:4326)`. The `reproject` and `pro4` libraries on NPM are good for this.
 
-## Getting Started
-
-Install dependencies:
+## Install
 
 ```bash
-npm install
+npm install max-inscribed-circle
 ```
 
-To browserify the library run:
+## Options
 
-```bash
-grunt build
-```
+Version 2 of this library has introduced the `options` parameter. Available options are as follows:
 
-The output file will be in the `dist/` directory.
-
-### Global Include
-
-Just include the file in your page, and then reference it:
-
-```html
-<html>
-   <head>
-      <!-- ... -->
-   </head>
-   <body>
-      <!-- ... -->
-      <script src="/vendor/max-inscribed-circle/dist/max-inscribed-circle.min.js"></script>
-      <script>
-         var polygon = { /* ... */ };
-         console.log(maxInscribedCircle(polygon));
-      </script>
-   </body>
-</html>
-```
-
-(The library is exposed as `window.maxInscribedCircle`.)
-
-### Node/Browserify
-
-You can simple require the module directly, after installing it from NPM.
-
-```javascript
-var maxCircle = require('./max-inscribed-circle.js');
-var polygon = { /* ... */};
-
-console.log(maxCircle(polygon));
-```
+* `decimalPlaces` - A numeric power of 10 used to truncate the decimal places of the polygon sites and bbox. This is a
+                    workaround due to the issue referred to here:
+                    https://github.com/gorhill/Javascript-Voronoi/issues/15. (default: `1e-20`)
+* `numSegments` - An integer specifying the number of equal segments we split each polygon line into. The higher the
+                  value, the better the medial axis approximation. However, compute time will increase. (default: `2`)
+* `units` - A string specifying what units the radius should be returned in. Available values are: "degrees", "radians",
+            "miles", or "kilometers". (default: `"degrees"`)
 
 ## Examples
 
 ```javascript
-var maxCircle = require('./max-inscribed-circle.js');
-var polygon = {
+import maxInscribedCircle from 'max-inscribed-circle';
+const polygon = {
     "type": "Feature",
     "geometry": {
         "type": "Polygon",
@@ -81,7 +52,7 @@ var polygon = {
     }
 };
 
-console.log(maxCircle(polygon));
+console.log(maxInscribedCircle(polygon));
 /*
 {
     "type": "Feature",
@@ -95,15 +66,32 @@ console.log(maxCircle(polygon));
     }
 }
 */
+
+console.log(maxInscribedCircle(polygon, {units: 'radians'}));
+/*
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [1.25,3.5]
+    },
+    "properties": {
+        "radius": 0.008726647167630651,
+        "units": "radians"
+    }
+}
+*/
 ```
 
 If a maximum circle cannot be inscribed, then the underlying centroid will be returned. In this case, `properties` will not define `radius` or `units`.
 
-## Future
+## ES6
 
-* Add ability to work with polygons in units other than `(lat,lon)`.
-* Add ability to specify properties to copy from GeoJSON object passed in to returned GeoJSON object.
-* Add ability to specify the complexity of the Voronoi approximation.
+It was mentioned at the beginning of this documentation that this library has been converted to an ES6 module. This
+decision was made since ES6 modules are natively supported in browsers and
+[Node 12 will natively support ES6 modules](https://medium.com/@nodejs/announcing-a-new-experimental-modules-1be8d2d6c2ff)
+in the near future. Until native support drops, it is recommended that you use the
+[esm module](https://www.npmjs.com/package/esm).
 
 ## Workarounds
 
