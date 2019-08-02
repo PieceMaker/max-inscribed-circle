@@ -42,6 +42,7 @@ describe('MaxInscribedCircle', function()
                 "coordinates": [1.25, 3.5]
             },
             "properties": {
+                "id": 1,
                 "radius": 0.4994165362629234,
                 "units": "degrees"
             }
@@ -56,6 +57,7 @@ describe('MaxInscribedCircle', function()
                 ]
             },
             "properties": {
+                "id": 1,
                 "radius": 0.5592622404253412,
                 "units": "degrees"
             }
@@ -67,6 +69,7 @@ describe('MaxInscribedCircle', function()
                 "coordinates": [1.25, 3.5]
             },
             "properties": {
+                "id": 1,
                 "radius": 0.008726647167630651,
                 "units": "radians"
             }
@@ -165,9 +168,6 @@ describe('MaxInscribedCircle', function()
                         ]
                     ]
                 ]
-            },
-            "properties": {
-                "id": 1
             }
         };
         this.expectedIssuePointTwoSegments = {

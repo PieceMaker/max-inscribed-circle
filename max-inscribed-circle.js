@@ -35,6 +35,7 @@ function maxInscribedCircle(polygon, options) {
         }, // Default
         options // Overrides
     );
+    const inputProperties = Object.assign({}, polygon.properties || {});
     assert.isNumber(options.decimalPlaces);
     assert.include(
         [ 'degrees', 'kilometers', 'miles', 'radians' ],
@@ -115,7 +116,13 @@ function maxInscribedCircle(polygon, options) {
         }
     }
 
-    return point(labelLocation.coordinates, {radius: labelLocation.maxDist, units: units});
+    return point(
+        labelLocation.coordinates,
+        Object.assign(
+            inputProperties || {},
+            {radius: labelLocation.maxDist, units: units}
+            )
+    );
 };
 
 export default maxInscribedCircle;

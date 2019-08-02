@@ -68,6 +68,7 @@ console.log(maxInscribedCircle(polygon));
         "coordinates": [1.25,3.5]
     },
     "properties": {
+        "id": 1,
         "radius": 0.4994165362629234,
         "units": "degrees"
     }
@@ -83,6 +84,7 @@ console.log(maxInscribedCircle(polygon, {units: 'radians'}));
         "coordinates": [1.25,3.5]
     },
     "properties": {
+        "id": 1,
         "radius": 0.008726647167630651,
         "units": "radians"
     }
