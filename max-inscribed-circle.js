@@ -121,7 +121,7 @@ function maxInscribedCircle(polygon, options) {
         Object.assign(
             inputProperties || {},
             {radius: labelLocation.maxDist, units: units}
-            )
+        )
     );
 };
 
