@@ -3,6 +3,13 @@
   "version": "2.0.0",
   "description": "A library to calculate the optimal point inside a polygon",
   "main": "max-inscribed-circle.js",
+  "files": [
+    "max-inscribed-circle.js",
+    "errors.js",
+    "utils/geojson-utils.js",
+    "dist/max-inscribed-circle.es5.min.js",
+    "dist/max-inscribed-circle.es5.min.js.map"
+  ],
   "dependencies": {
     "@turf/area": "^6.0.1",
     "@turf/centroid": "^6.0.2",
@@ -14,10 +21,17 @@
   },
   "devDependencies": {
     "esm": "^3.2.25",
-    "mocha": "^6.1.4"
+    "file-cli": "^1.2.0",
+    "mocha": "^6.1.4",
+    "parcel": "^1.12.4"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --require esm test --reporter spec --recursive"
+    "clean": "fcli remove ./dist",
+    "rename:lib": "fcli move ./dist/max-inscribed-circle.js ./dist/max-inscribed-circle.es5.min.js -o",
+    "rename:map": "fcli move ./dist/max-inscribed-circle.js.map ./dist/max-inscribed-circle.es5.min.js.map -o",
+    "build": "parcel build ./max-inscribed-circle.js",
+    "prepublishOnly": "npm run build && npm run rename:lib && npm run rename:map",
+    "test": "mocha --require esm test --reporter spec --recursive"
   },
   "repository": {
     "type": "git",
