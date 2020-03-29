@@ -4,7 +4,7 @@ center of the maximum circle will occur on the [medial axis](https://en.wikipedi
 and the medial axis. It is known that for planar 2D polygons the
 [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) will converge to the medial axis. Thus this library
 uses Voronoi to approximate the medial axis.
-   
+
 This library takes a GeoJSON feature with Polygon geometry and returns the centroid of the maximum-radius inscribed
 circle as a GeoJSON feature with Point geometry.
 
@@ -21,6 +21,34 @@ NodeJS.
 ```bash
 npm install max-inscribed-circle
 ```
+
+### Usage
+
+This module is provided in two forms: a fully ES2020 compliant ECMA Module (the default), and a transpiled ES5 UMD.
+
+If you are working in an environment where you can use the ECMA module, we highly recommend you do so. (Currently, only
+Node v13 and the latest versions of most browsers natively support ECMA modules. However, projects that utilize
+transpiling should be able to import this module without issue.)
+
+#### ECMA Module
+
+Simply do:
+
+```javascript
+import maxInscribedCircle from 'max-inscribed-circle';
+```
+
+#### ES5 UMD
+
+A [UMD](https://github.com/umdjs/umd) can be used either globally, as a CommonJS module, as a RequireJS module, or even
+as an ECMA Module. However, we only support (as in we have only tested) using this module as a CommonJS module inside of
+Node. To do so, simply import it like this:
+
+```javascript
+const maxInscribedCircle = require('max-inscribed-circle/dist/max-inscribed-circle.es5.min.js');
+```
+
+From there, usage should be the same.
 
 ## Options
 
@@ -114,7 +142,7 @@ workaround argument has been added, `decimalPlaces`, which is used to truncate t
 run the function in a retry without defining `decimalPlaces`. If the voronoi error is thrown, retry and define
 `decimalPlaces` as something relevant to your polygon, such as `1e-10`. Continue to increase this value until the error
 is no longer thrown.
-  
+
 Note, this error has so far only been detected when running in Chrome. It has not currently been a reported issue in
 Node.
 
