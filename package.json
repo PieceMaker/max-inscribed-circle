@@ -22,7 +22,7 @@
   "devDependencies": {
     "esm": "^3.2.25",
     "file-cli": "^1.2.0",
-    "mocha": "^6.1.4",
+    "mocha": "^7.1.1",
     "parcel": "^1.12.4"
   },
   "scripts": {
