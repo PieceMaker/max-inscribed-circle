@@ -5,7 +5,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 import area from '@turf/area';
-import {indexOf, map, max} from 'lodash';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -25,13 +24,13 @@ class GeoJSONUtils {
             return polygon;
         } else if(polygon.geometry.type === 'MultiPolygon' && polygon.geometry.coordinates[0].length > 1) {
             // Handle a true MultiPolygon by returning the Polygon of largest area
-            const polygons = map(polygon.geometry.coordinates[0], ((coordinates) => {
+            const polygons = polygon.geometry.coordinates[0].map((coordinates) => {
                 return this._toGeoJSONFeature(
                     this._toGeoJSONPolygon(coordinates)
                 );
-            }));
-            const collectionArea = map(polygons, area);
-            const largestAreaIndex = indexOf(collectionArea, max(collectionArea));
+            });
+            const collectionArea = polygons.map(area);
+            const largestAreaIndex = collectionArea.indexOf(Math.max(...collectionArea));
 
             return polygons[largestAreaIndex];
         } else {
