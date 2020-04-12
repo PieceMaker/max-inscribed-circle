@@ -31,6 +31,61 @@ the medial axis.
 It is quite evident in the above plots how the Voronoi diagram becomes much closer to the medial axis as we go from
 2-secting (bisecting) to 10-secting the edges of the shape.
 
+## Usage
+
+This library can be installed from NPM.
+
+```bash
+npm install max-inscribed-circle
+```
+
+To run it, simply import it and pass it a GeoJSON Polygon or MultiPolygon.
+
+```javascript
+import maxInscribedCircle from 'max-inscribed-circle';
+const polygon = {
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [0.0,0.0],
+            [1.0,0.0],
+            [1.0,3.0],
+            [2.0,3.0],
+            [2.0,0.0],
+            [3.0,0.0],
+            [3.0,4.0],
+            [0.0,4.0],
+            [0.0,0.0]
+        ]]
+    },
+    "properties": {
+        "id": 1
+    }
+};
+
+console.log(maxInscribedCircle(polygon));
+/*
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [1.25,3.5]
+    },
+    "properties": {
+        "id": 1,
+        "radius": 0.4994165362629234,
+        "units": "degrees"
+    }
+}
+*/
+```
+
+![Usage](images/voronoi-10-secting.png)
+
+There are actually infinitely many maximum inscribed circles in this sample shape. This library returns the first one
+it finds.
+
 ## Options
 
 There are three different options that can be specified when executing `maxInscribedCircle`. They are `decimalPlaces`,
