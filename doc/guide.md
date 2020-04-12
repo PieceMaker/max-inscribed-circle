@@ -184,8 +184,10 @@ for each of these units using the following polygon:
 
 ### `decimalPlaces` - default `1e-20`
 
-`decimalPlaces` is an option that was introduced as a workaround for a bug in the underlying voronoi library. Certain
-polygons can cause the voronoi library to throw the error `Voronoi.closeCells() > this makes no sense!`. This is a
+`decimalPlaces` is an option that was introduced as a workaround for a bug in the underlying Voronoi library. Certain
+polygons can cause the Voronoi library to throw the error `Voronoi.closeCells() > this makes no sense!`. This is a
 problem caused by floating point precision and the best workaround found so far has been to decrease the decimal
 precision in calculations whenever this error is thrown. Note, using this option to decrease the precision will result
-in less accurate estimates of the maximum inscribed circle.
+in less accurate estimates of the maximum inscribed circle. As such, this option should **only** be used in the event
+a polygon throws this error. In this event, slowly start increasing the value, such as `1e-19` or `1e-18`. If these
+do not fix the issue, continue to increase the value moving toward `1e-1`.
