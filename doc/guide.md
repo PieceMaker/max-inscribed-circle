@@ -221,3 +221,43 @@ set it in `properties` and it will be returned. See the below example:
     "properties": { "id": 1, "radius": 0.25, "units": "degrees" }
 }
 ```
+
+## MultiPolygons
+
+This library accepts GeoJSON MultiPolygons. In the event a multipolygon is passed, this library will take the polygon
+of largest area and run the algorithm on this shape. The reasoning behind this decision was that, in the event of
+labeling, the polygon of largest areas is most likely where the viewer's eyes will navigate, even if a different
+polygon can support a larger inscribed circle. Below is an example that illustrates this. The square at the bottom can
+inscribe a circle with radius 1, but the shape above it has a larger area so this is where the maximum inscribed circle
+is calculated, even though its maximum inscribed circle only has a radius of 0.5.
+
+```json
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [[
+            [
+                [0.0, 0.0],
+                [1.0, 0.0],
+                [1.0, 3.0],
+                [2.0, 3.0],
+                [2.0, 0.0],
+                [3.0, 0.0],
+                [3.0, 4.0],
+                [0.0, 4.0],
+                [0.0, 0.0]
+            ],
+            [
+                [-3.0, -3.0],
+                [-1.0, -3.0],
+                [-1.0, -1.0],
+                [-3.0, -1.0],
+                [-3.0, -3.0]
+            ]
+        ]]
+    }
+}
+```
+
+![Usage](images/multipolygon.png)
