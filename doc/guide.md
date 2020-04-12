@@ -58,9 +58,6 @@ const polygon = {
             [0.0,4.0],
             [0.0,0.0]
         ]]
-    },
-    "properties": {
-        "id": 1
     }
 };
 
@@ -73,7 +70,6 @@ console.log(maxInscribedCircle(polygon));
         "coordinates": [1.25,3.5]
     },
     "properties": {
-        "id": 1,
         "radius": 0.4994165362629234,
         "units": "degrees"
     }
@@ -89,8 +85,40 @@ like. Mathematically we know the radius of the circle is 0.5 but we can see this
 
 ## Options
 
-There are three different options that can be specified when executing `maxInscribedCircle`. They are `decimalPlaces`,
-`numSegments`, and `units`. Each of these is documented in their own subsection below.
+There are three different options that can be specified when executing `maxInscribedCircle`. They are `numSegments`,
+`units`, and `decimalPlaces`. Each of these is documented in their own subsection below.
+
+### `numSegments` - default `2`
+
+`numSegments` how many times to split each edge when generating the sites on which to create the Voronoi diagram. As
+was mentioned in the in Background section, if we split the edges into infinitely many points the Voronoi diagram would
+converge to the medial axis. Therefore, as `numSegments` increases the accuracy of our approximation will too increase.
+This was seen in the 2-secting and 10-secting sample images in the Background.
+
+Note that the higher the value of `numSegments`, the longer the calculation will take. Below are two images that
+demonstrate the increased accuracy of the maximum inscribed circle approximation as `numSegments` increases. They also
+include the runtime. The polygon is defined as follows:
+
+```json
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [0, 0],
+            [5, 0],
+            [5, 1],
+            [0, 0]
+        ]]
+    }
+}
+```
+
+![Usage](images/triangle-2-secting.png)
+![Usage](images/triangle-10-secting.png)
+
+An additional run was performed using `numSegments: 100`. It took 28ms to run and the results were only marginally
+better and well within the floating point error. 
 
 ### `decimalPlaces` - default `1e-20`
 
