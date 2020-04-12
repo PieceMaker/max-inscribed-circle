@@ -17,9 +17,10 @@ shape that has the most space around it.
 This circle, known as the maximum inscribed circle, will always have its center lie on the
 [medial axis](https://en.wikipedia.org/wiki/Medial_axis) of the shape. The medial axis can be thought of as the bone
 structure of a shape, where every point on the medial axis has at least two equidistant closest points on the shape.
-Note, the following example is a manual approximation and is not 100% accurate, particularly in the curved segments.
 
 ![Medial Axis](images/medial-axis.png)
+
+*Note, the previous example is a manual approximation and is not 100% accurate, particularly in the curved segments.*
 
 A [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) over the discretized edges of the shape can be used
 to approximate the medial axis and, as the discretized points tend to infinity the diagram will start to converge to
@@ -85,9 +86,10 @@ like. Mathematically we know the radius of the circle is 0.5 but we can see this
 
 ### Coordinate Units
 
-It is important to note that due to the underlying `turf` dependencies, this library has been written to work primarily
-with `(lat,lon)` coordinates. If the polygon is in a known projection then it is recommended you transform it to
-`WGS84 (EPSG:4326)`. The `reproject` and `pro4` libraries on NPM are good for this.
+It is important to note that due to the underlying [turf](https://turfjs.org/) dependencies, this library has been
+written to work primarily with `(lat,lon)` coordinates. If the polygon is in a known projection then it is recommended
+you transform it to `WGS84 (EPSG:4326)`. The [reproject](https://github.com/perliedman/reproject) and
+[pro4](https://github.com/proj4js/proj4js) libraries on NPM are good for this.
 
 ## Options
 
