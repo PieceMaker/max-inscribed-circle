@@ -157,27 +157,27 @@ for each of these units using the following polygon:
 ```json
 [
     {
-      "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
-      "properties": { "radius": 0.4994165362629234, "units": "degrees" }
+        "type": "Feature",
+        "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+        "properties": { "radius": 0.4994165362629234, "units": "degrees" }
     },
     
     {
-      "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
-      "properties": { "radius": 0.008726647167630651, "units": "radians" }
+        "type": "Feature",
+        "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+        "properties": { "radius": 0.008726647167630651, "units": "radians" }
     },
     
     {
-      "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
-      "properties": { "radius": 34.546713381023544, "units": "miles" }
+        "type": "Feature",
+        "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+        "properties": { "radius": 34.546713381023544, "units": "miles" }
     },
     
     {
-      "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
-      "properties": { "radius": 55.59754589946995, "units": "kilometers" }
+        "type": "Feature",
+        "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+        "properties": { "radius": 55.59754589946995, "units": "kilometers" }
     }
 ]
 ```
@@ -191,3 +191,33 @@ precision in calculations whenever this error is thrown. Note, using this option
 in less accurate estimates of the maximum inscribed circle. As such, this option should **only** be used in the event
 a polygon throws this error. In this event, slowly start increasing the value, such as `1e-19` or `1e-18`. If these
 do not fix the issue, continue to increase the value moving toward `1e-1`.
+
+## Additional Properties
+
+If there are any additional properties on the passed GeoJSON, these properties will be returned verbatim in the
+resulting GeoJSON Point geometry. As an example, if you want to use an identifier to link the result with the input,
+set it in `properties` and it will be returned. See the below example:
+
+```json
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [0, 0],
+            [5, 0],
+            [5, 1],
+            [0, 0]
+        ]]
+    },
+    "properties": { "id":  1 }
+}
+```
+
+```json
+{
+    "type": "Feature",
+    "geometry": { "type": "Point", "coordinates": [ 3.75, 0.25 ] },
+    "properties": { "id": 1, "radius": 0.25, "units": "degrees" }
+}
+```
