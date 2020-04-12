@@ -19,13 +19,14 @@ This circle, known as the maximum inscribed circle, will always have its center 
 structure of a shape, where every point on the medial axis has at least two equidistant closest points on the shape.
 Note, the following example is a manual approximation and is not 100% accurate, particularly in the curved segments.
 
-// <Insert medial axis image>
+![Medial Axis](images/medial-axis.png)
 
 A [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) over the discretized edges of the shape can be used
 to approximate the medial axis and, as the discretized points tend to infinity the diagram will start to converge to
 the medial axis.
 
-// <Insert 2-sected and 10-sected Voronoi overlaid on shape and medial axis>
+![2-secting](images/voronoi-2-secting.png)
+![10-secting](images/voronoi-10-secting.png)
 
 It is quite evident in the above plots how the Voronoi diagram becomes much closer to the medial axis as we go from
 2-secting (bisecting) to 10-secting the edges of the shape.
