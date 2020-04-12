@@ -84,7 +84,8 @@ console.log(maxInscribedCircle(polygon));
 ![Usage](images/usage.png)
 
 There are actually infinitely many maximum inscribed circles in this sample shape. This library returns the first one
-it finds.
+it finds. Additionally, due to floating point issues with JavaScript, the radius will not always be as accurate as we
+like. Mathematically we know the radius of the circle is 0.5 but we can see this is not what is returned by the library.
 
 ## Options
 
