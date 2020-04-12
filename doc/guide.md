@@ -260,4 +260,4 @@ is calculated, even though its maximum inscribed circle only has a radius of 0.5
 }
 ```
 
-![Usage](images/multipolygon.png)
+![MultiPolygon](images/multipolygon.png)

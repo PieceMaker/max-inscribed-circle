@@ -50,6 +50,10 @@ const maxInscribedCircle = require('max-inscribed-circle/dist/max-inscribed-circ
 
 From there, usage should be the same.
 
+## User Guide
+
+An in-depth user guide can be found at [doc/guide.md](doc/guide.md).
+
 ## Options
 
 Version 2 of this library has introduced the `options` parameter. Available options are as follows:
@@ -119,6 +123,8 @@ console.log(maxInscribedCircle(polygon, {units: 'radians'}));
 }
 */
 ```
+
+![Usage](doc/images/multipolygon.png)
 
 If a maximum circle cannot be inscribed, then the underlying centroid will be returned. In this case, `properties` will
 not define `radius` or `units`.
