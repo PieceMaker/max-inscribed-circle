@@ -124,7 +124,7 @@ console.log(maxInscribedCircle(polygon, {units: 'radians'}));
 */
 ```
 
-![Usage](doc/images/multipolygon.png)
+![Usage](doc/images/usage.png)
 
 If a maximum circle cannot be inscribed, then the underlying centroid will be returned. In this case, `properties` will
 not define `radius` or `units`.
