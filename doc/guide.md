@@ -12,7 +12,7 @@ After some visual analysis and research, it became obvious that the optimal loca
 the center of the largest circle that can be inscribed in the shape. This location is optimal as it is the part of the
 shape that has the most space around it.
 
-// <Insert motivation image>
+<img src="images/motivation.png" alt="Motivation" height="500">
 
 This circle, known as the maximum inscribed circle, will always have its center lie on the
 [medial axis](https://en.wikipedia.org/wiki/Medial_axis) of the shape. The medial axis can be thought of as the bone
