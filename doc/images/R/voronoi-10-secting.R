@@ -45,8 +45,12 @@ medialAxisWings4 <- data.frame(
 )
 
 sites <- data.frame(
-  x = c(0, 0, 0, 1.5, 3, 3, 3, 2.5, 2, 2, 2, 1.5, 1, 1, 1, 0.5),
-  y = c(0, 2, 4, 4, 4, 2, 0, 0, 0, 1.5, 3, 3, 3, 1.5, 0, 0),
+  x = c(
+    rep(0, 11), seq(0.3, 3, by = 0.3), rep(3, 10), seq(2.9, 2, by = -0.1), rep(2, 10), seq(1.9, 1, by = -0.1), rep(1, 10), seq(0.9, 0.1, by = -0.1)
+  ),
+  y = c(
+    seq(0, 4, by = 0.4), rep(4, 10), seq(3.6, 0, by = -0.4), rep(0, 10), seq(0.3, 3, by = 0.3), rep(3, 10), seq(2.7, 0, by = -0.3), rep(0, 9)
+  ),
   plot = 'Voronoi'
 )
 
@@ -89,6 +93,6 @@ ggplot() +
     panel.background = element_rect(fill = "#D3D3D3"),
     plot.title = element_text(hjust = 0.5)
   ) +
-  labs(title = 'Voronoi 2-secting Edges')
+  labs(title = 'Voronoi 10-secting Edges')
 
-ggsave(filename = 'images/voronoi-2-secting.png', height = 6, width = 6, dpi = 100)
+ggsave(filename = '../voronoi-10-secting.png', height = 6, width = 6, dpi = 100)

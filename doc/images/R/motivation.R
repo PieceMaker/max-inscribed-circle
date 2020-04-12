@@ -32,4 +32,4 @@ ggplot(shape, aes(x, y)) +
     panel.background = element_rect(fill = "#D3D3D3")
   )
 
-ggsave(filename = 'images/motivation.png', height = 6, width = 6, dpi = 100)
+ggsave(filename = '../motivation.png', height = 6, width = 6, dpi = 100)

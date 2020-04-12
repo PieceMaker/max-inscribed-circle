@@ -73,4 +73,4 @@ ggplot() +
     panel.background = element_rect(fill = "#D3D3D3")
   )
 
-ggsave(filename = 'images/medial-axis.png', height = 6, width = 6, dpi = 100)
+ggsave(filename = '../medial-axis.png', height = 6, width = 6, dpi = 100)
