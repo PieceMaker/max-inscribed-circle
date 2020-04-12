@@ -83,6 +83,12 @@ There are actually infinitely many maximum inscribed circles in this sample shap
 it finds. Additionally, due to floating point issues with JavaScript, the radius will not always be as accurate as we
 like. Mathematically we know the radius of the circle is 0.5 but we can see this is not what is returned by the library.
 
+### Coordinate Units
+
+It is important to note that due to the underlying `turf` dependencies, this library has been written to work primarily
+with `(lat,lon)` coordinates. If the polygon is in a known projection then it is recommended you transform it to
+`WGS84 (EPSG:4326)`. The `reproject` and `pro4` libraries on NPM are good for this.
+
 ## Options
 
 There are three different options that can be specified when executing `maxInscribedCircle`. They are `numSegments`,
@@ -118,7 +124,63 @@ include the runtime. The polygon is defined as follows:
 ![Usage](images/triangle-10-secting.png)
 
 An additional run was performed using `numSegments: 100`. It took 28ms to run and the results were only marginally
-better and well within the floating point error. 
+better and well within the floating point error.
+
+### `units` - default `degrees`
+
+As was noted in the Coordinate Units subsection, this library requires input geometries to have their coordinates in
+degrees, preferably in the WGS84 projection. Because of this, the returned radius will be in degrees by default.
+However, if you wish for the returned radius to be in a different distance unit you can use the `units` option to
+change it. The available options are `"degrees"`, `"radians"`, `"miles"`, and `"kilometers"`. Below is sample output
+for each of these units using the following polygon:
+
+```json
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [0.0,0.0],
+            [1.0,0.0],
+            [1.0,3.0],
+            [2.0,3.0],
+            [2.0,0.0],
+            [3.0,0.0],
+            [3.0,4.0],
+            [0.0,4.0],
+            [0.0,0.0]
+        ]]
+    }
+}
+```
+
+```json
+[
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+      "properties": { "radius": 0.4994165362629234, "units": "degrees" }
+    },
+    
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+      "properties": { "radius": 0.008726647167630651, "units": "radians" }
+    },
+    
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+      "properties": { "radius": 34.546713381023544, "units": "miles" }
+    },
+    
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [ 1.25, 3.5 ] },
+      "properties": { "radius": 55.59754589946995, "units": "kilometers" }
+    }
+]
+```
 
 ### `decimalPlaces` - default `1e-20`
 
