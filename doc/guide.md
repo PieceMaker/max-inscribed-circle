@@ -81,7 +81,7 @@ console.log(maxInscribedCircle(polygon));
 */
 ```
 
-![Usage](images/voronoi-10-secting.png)
+![Usage](images/usage.png)
 
 There are actually infinitely many maximum inscribed circles in this sample shape. This library returns the first one
 it finds.
