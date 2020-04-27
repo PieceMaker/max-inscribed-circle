@@ -144,57 +144,43 @@ describe('MaxInscribedCircle', function()
         };
 
         // Test 5
-        this.issuePolygon = {
+        this.trianglePolygon = {
             "type": "Feature",
             "geometry": {
                 "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                            49.0138,
-                            15
-                        ],
-                        [
-                            49.0138,
-                            15.0167
-                        ],
-                        [
-                            49.0153,
-                            15.0167
-                        ],
-                        [
-                            49.0138,
-                            15
-                        ]
-                    ]
-                ]
+                "coordinates": [[
+                    [0, 0],
+                    [5, 0],
+                    [5, 1],
+                    [0, 0]
+                ]]
             }
         };
-        this.expectedIssuePointTwoSegments = {
+        this.expectedTrianglePointTwoSegments = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    49.014175,
-                    15.012525
+                    3.75,
+                    0.25
                 ]
             },
             "properties": {
-                "radius": 0.0003617784458710126,
+                "radius": 0.2497082421592924,
                 "units": "degrees"
             }
         };
-        this.expectedIssuePointTenSegments = {
+        this.expectedTrianglePointTenSegments = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    49.014475000000004,
-                    15.015730269461077
+                    4.55,
+                    0.44999999999999996
                 ]
             },
             "properties": {
-                "radius": 0.0006511913547888886,
+                "radius": 0.44946097534854745,
                 "units": "degrees"
             }
         };
@@ -242,12 +228,12 @@ describe('MaxInscribedCircle', function()
     // Test 5a
     it('should return the expected point for polygon submitted in issue', function()
     {
-        expect(maxInscribedCircle(this.issuePolygon, {numSegments: 2})).to.eql(this.expectedIssuePointTwoSegments);
+        expect(maxInscribedCircle(this.trianglePolygon, {numSegments: 2})).to.eql(this.expectedTrianglePointTwoSegments);
     });
     // Test 5b
     it('should return the expected point for polygon submitted in issue', function()
     {
-        expect(maxInscribedCircle(this.issuePolygon, {numSegments: 10})).to.eql(this.expectedIssuePointTenSegments);
+        expect(maxInscribedCircle(this.trianglePolygon, {numSegments: 10})).to.eql(this.expectedTrianglePointTenSegments);
     });
 });
 
